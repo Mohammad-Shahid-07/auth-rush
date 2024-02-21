@@ -1,0 +1,8 @@
+[
+  {
+    "name": "action",
+    "dependencies": [""],
+    "files": ["auth.actions.tsx"],
+    "type": "components:action"
+  }
+]
