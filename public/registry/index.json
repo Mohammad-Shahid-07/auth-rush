@@ -2,6 +2,6 @@
   {
     "name": "action",
     "files": ["auth.actions.tsx"],
-    "type": "components:action"
+    "type": "actions"
   }
 ]
