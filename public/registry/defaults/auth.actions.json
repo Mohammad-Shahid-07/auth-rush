@@ -4,7 +4,7 @@
   "files": [
     {
       "name": "auth.actions.ts",
-      "content": "//[imports]\nimport User from \"@/models/user.model\"; import { connectToDatabase } from \"@/lib/db\"; \n//[credentials] \nexport async function GetUserByEmail(email: string) {\n  try {\n    connectToDatabase();\n    const user = await User.findOne({ email });\n    return user;\n  } catch (error) {\n    console.log(error);\n  }\n} \n export async function GetUserById(id: string) {\n  try {\n    connectToDatabase();\n\n    const user = await User.findOne({ _id: id });\n    if (!user) {\n      return { error: \"User not found\" };\n    }\n    return user;\n  } catch (error) {\n    console.log(error);\n  }\n}"
+      "content": "//[imports]\nimport User from \"@/models/user.model\"; import { connectToDatabase } from \"@/lib/db\"; \n//[Base] \nexport async function GetUserByEmail(email: string) {\n  try {\n    connectToDatabase();\n    const user = await User.findOne({ email });\n    return user;\n  } catch (error) {\n    console.log(error);\n  }\n} \n export async function GetUserById(id: string) {\n  try {\n    connectToDatabase();\n\n    const user = await User.findOne({ _id: id });\n    if (!user) {\n      return { error: \"User not found\" };\n    }\n    return user;\n  } catch (error) {\n    console.log(error);\n  }\n}"
     }
   ],
   "type": "actions"
