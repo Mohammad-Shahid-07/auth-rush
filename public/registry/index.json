@@ -1,7 +1,7 @@
 [
   {
-    "name": "auth.action",
-    "files": ["auth.actions.tsx"],
+    "name": "auth.actions",
+    "files": ["auth.actions.ts"],
     "type": "actions"
   }
 ]
