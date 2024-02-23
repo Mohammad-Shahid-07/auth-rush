@@ -148,5 +148,15 @@
     "name": "settings.actions",
     "files": ["settings.actions.ts"],
     "type": "actions"
+  },
+  {
+    "name": "database",
+    "files": ["database.ts"],
+    "type": "lib"
+  },
+  {
+    "name": "mail",
+    "files": ["mail.ts"],
+    "type": "lib"
   }
 ]
