@@ -3,5 +3,150 @@
     "name": "auth.actions",
     "files": ["auth.actions.ts"],
     "type": "actions"
+  },
+  {
+    "name": "auth.config",
+    "files": ["auth.config.ts"],
+    "type": "root"
+  },
+  {
+    "name": "auth",
+    "files": ["auth.ts"],
+    "type": "root"
+  },
+  {
+    "name": "authLayout",
+    "files": ["layout.tsx"],
+    "type": "app"
+  },
+  {
+    "name": "loginPage",
+    "files": ["page.tsx"],
+    "type": "app:(auth)"
+  },
+  {
+    "name": "new-passwordPage",
+    "files": ["page.tsx"],
+    "type": "app:(auth)"
+  },
+  {
+    "name": "registerPage",
+    "files": ["page.tsx"],
+    "type": "app:(auth)"
+  },
+  {
+    "name": "errorPage",
+    "files": ["page.tsx"],
+    "type": "app:(auth)"
+  },
+  {
+    "name": "resetPage",
+    "files": ["page.tsx"],
+    "type": "app:(auth)"
+  },
+  {
+    "name": "verify-emailPage",
+    "files": ["page.tsx"],
+    "type": "app:(auth)"
+  },
+  {
+    "name": "BackButton",
+    "files": ["BackButton.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "CardWrapper",
+    "files": ["CardWrapper.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "ErrorCard",
+    "files": ["ErrorCard.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "FormError",
+    "files": ["FormError.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "FormSuccess",
+    "files": ["FormSuccess.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "Header",
+    "files": ["Header.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "Loader",
+    "files": ["Loader.tsx", "styles.module.css"],
+    "type": "components:auth"
+  },
+  {
+    "name": "LoginButton",
+    "files": ["LoginButton.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "LoginForm",
+    "files": ["LoginForm.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "NewPasswordForm",
+    "files": ["NewPasswordForm.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "RegisterForm",
+    "files": ["RegisterForm.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "ResetForm",
+    "files": ["ResetForm.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "Social",
+    "files": ["Social.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "UserButton",
+    "files": ["UserButton.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "VerifyEmailForm",
+    "files": ["VerifyEmailForm.tsx"],
+    "type": "components:auth"
+  },
+  {
+    "name": "user.model",
+    "files": ["user.model.ts"],
+    "type": "models"
+  },
+  {
+    "name": "two_factor_token.model",
+    "files": ["two_factor_token.model.ts"],
+    "type": "models"
+  },
+  {
+    "name": "forgot_pass.model",
+    "files": ["forgot_pass.model.ts"],
+    "type": "models"
+  },
+  {
+    "name": "email_verify.model",
+    "files": ["email_verify.model.ts"],
+    "type": "models"
+  },
+  {
+    "name": "settings.actions",
+    "files": ["settings.actions.ts"],
+    "type": "actions"
   }
 ]
