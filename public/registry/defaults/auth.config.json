@@ -3,7 +3,7 @@
   "files": [
     {
       "name": "auth.config.ts",
-      "content": "import type { NextAuthConfig } from \"next-auth\";\nimport Credentials from \"next-auth/providers/credentials\";\nimport Github from \"next-auth/providers/github\";\nimport Google from \"next-auth/providers/google\";\nimport { LoginSchema } from \"./validations\";\nimport bcrypt from \"bcryptjs\";\nimport { GetUserByEmail } from \"@/actions/auth.action\";\nexport default {\n  providers: [\n    Google({\n      clientId: process.env.GOOGLE_CLIENT_ID,\n      clientSecret: process.env.GOOGLE_CLIENT_SECRET,\n    }),\n    Github({\n      clientId: process.env.GITHUB_CLIENT_ID,\n      clientSecret: process.env.GITHUB_CLIENT_SECRET,\n    }),\n    Credentials({\n      async authorize(credentials) {\n        const validatedFields = LoginSchema.safeParse(credentials);\n        if (!validatedFields.success) {\n          return null;\n        }\n\n        if (validatedFields.success) {\n          const { email, password } = validatedFields.data;\n\n          const user = await GetUserByEmail(email);\n          if (!user || !user.password) return null;\n\n          const passwordsMatch = await bcrypt.compare(password, user.password);\n\n          if (passwordsMatch) return user;\n        }\n        return null;\n      },\n    }),\n  ],\n} satisfies NextAuthConfig;"
+      "content": "//[imports]\n  export default {\n  providers: [\n\n //[Google]\n //[Github] \n  //[Credentials]\n  ],     \n} satisfies NextAuthConfig;"
     }
   ],
   "type": "root"

@@ -155,7 +155,12 @@
     "type": "lib"
   },
   {
-    "name": "mail",
+    "name": "nodemailer",
+    "files": ["mail.ts"],
+    "type": "lib"
+  },
+  {
+    "name": "resend",
     "files": ["mail.ts"],
     "type": "lib"
   }

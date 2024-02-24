@@ -1,0 +1,17 @@
+{
+  "name": "SocialAuthButtons",
+  "files": [
+    {
+      "name": "google",
+      "imports": "",
+      "content": "<Button\n        className=\"w-full\"\n        variant=\"outline\"\n        size=\"lg\"\n        onClick={() => handleOauth(\"google\")}\n      >\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          viewBox=\"0 0 326667 333333\"\n          shape-rendering=\"geometricPrecision\"\n          text-rendering=\"geometricPrecision\"\n          image-rendering=\"optimizeQuality\"\n          fill-rule=\"evenodd\"\n          clip-rule=\"evenodd\"\n          className=\"w-8 h-8\"\n        >\n          {/* Google SVG Path */}\n        </svg>\n      </Button>\n",
+      "comment": "{/*[Google]*/}"
+    },
+    {
+      "name": "github",
+      "imports": "",
+      "content": " <Button\n        className=\"w-full \"\n        variant=\"outline\"\n        size=\"lg\"\n        onClick={() => handleOauth(\"github\")}\n      >\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          shape-rendering=\"geometricPrecision\"\n          text-rendering=\"geometricPrecision\"\n          image-rendering=\"optimizeQuality\"\n          fill-rule=\"evenodd\"\n          clip-rule=\"evenodd\"\n          viewBox=\"0 0 640 640\"\n          className=\"w-8 h-8\"\n        >\n          {/* GitHub SVG Path */}\n        </svg>\n      </Button>\n ",
+      "comment": "{/*[github]*/}"
+    }
+  ]
+}

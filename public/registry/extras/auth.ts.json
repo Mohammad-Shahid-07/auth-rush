@@ -1,0 +1,24 @@
+{
+  "name": "Auth.ts",
+  "files": [
+    {
+      "name": "credentials",
+      "imports": "",
+      "content": "\nconst existingUser = await GetUserById(user.id);\n\n  \nif (!existingUser?.emailVerified) return false;",
+      "comment": "//[credentialsSignIn]"
+    },
+
+    {
+      "name": "twoFactorAuth",
+      "imports": "import {getTwoFactorConfimationByUserId} from \"@/actions/auth.actions\";\n",
+      "content": "\nif (existingUser?.twoFactorEnabled) {\n    const twoFactorConfimation = await getTwoFactorConfimationByUserId(\n      existingUser._id,\n    );\n\n    if (!twoFactorConfimation) return false;\n    await twoFactorConfimation.deleteOne();\n  }",
+      "comment": "//[credentialsSignInTwoFactor]"
+    },
+    {
+      "name": "OAuthbase",
+      "imports": "import {LoginWithOAuth} from \"@/actions/auth.actions\";\n",
+      "content": "\nif (account?.provider !== \"credentials\") {\n  await LoginWithOAuth({ user, account });\n  return true;\n}",
+      "comment": "//[OAuthSignIn]"
+    }
+  ]
+}
