@@ -1,0 +1,46 @@
+[
+  {
+    "name": "google"
+  },
+  {
+    "name": "github"
+  },
+  {
+    "name": "credentials",
+    "questions": [
+      {
+        "question": "Do you want to add two factor authentication?",
+        "type": "toggle",
+        "name": "twoFactorAuth",
+        "active": "yes",
+        "inactive": "no"
+      },
+      {
+        "question": "Choose an mailing service",
+        "type": "toggle",
+        "name": "emailProvider",
+        "active": "nodemailer",
+        "inactive": "resend"
+      },
+      {
+        "question": "Add username field?",
+        "type": "toggle",
+        "name": "username",
+        "active": "yes",
+        "inactive": "no"
+      }
+    ]
+  },
+  {
+    "name": "magic Link",
+    "questions": [
+      {
+        "question": "Choose an mailing service",
+        "type": "toggle",
+        "name": "emailProvider",
+        "active": "nodemailer",
+        "inactive": "resend"
+      }
+    ]
+  }
+]

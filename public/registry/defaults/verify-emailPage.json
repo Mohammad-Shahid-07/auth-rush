@@ -1,5 +1,5 @@
 {
-  "name": "verify-emailPage",
+  "name": "verify-email",
   "files": [
     {
       "name": "page.tsx",

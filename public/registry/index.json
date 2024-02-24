@@ -20,32 +20,32 @@
     "type": "app"
   },
   {
-    "name": "loginPage",
+    "name": "login",
     "files": ["page.tsx"],
     "type": "app:(auth)"
   },
   {
-    "name": "new-passwordPage",
+    "name": "new-password",
     "files": ["page.tsx"],
     "type": "app:(auth)"
   },
   {
-    "name": "registerPage",
+    "name": "register",
     "files": ["page.tsx"],
     "type": "app:(auth)"
   },
   {
-    "name": "errorPage",
+    "name": "error",
     "files": ["page.tsx"],
     "type": "app:(auth)"
   },
   {
-    "name": "resetPage",
+    "name": "reset",
     "files": ["page.tsx"],
     "type": "app:(auth)"
   },
   {
-    "name": "verify-emailPage",
+    "name": "verify-email",
     "files": ["page.tsx"],
     "type": "app:(auth)"
   },

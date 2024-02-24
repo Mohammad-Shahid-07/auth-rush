@@ -1,5 +1,5 @@
 {
-  "name": "errorPage",
+  "name": "error",
   "files": [
     {
       "name": "page.tsx",

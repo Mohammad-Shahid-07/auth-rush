@@ -1,5 +1,5 @@
 {
-  "name": "registerPage",
+  "name": "register",
   "files": [
     {
       "name": "page.tsx",

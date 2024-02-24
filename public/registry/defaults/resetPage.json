@@ -1,5 +1,5 @@
 {
-  "name": "resetPage",
+  "name": "reset",
   "files": [
     {
       "name": "page.tsx",
