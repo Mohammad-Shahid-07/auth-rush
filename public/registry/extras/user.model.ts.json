@@ -3,6 +3,7 @@
   "files": [
     {
       "name": "OAuth",
+      "imports":"",
       "content": "export interface IAccount {\n    provider: string;\n    providerAccountId: string;\n    refresh_token: string;\n    access_token: string;\n    expires_at: number;\n    expires_in: number;\n    token_type: string;\n    scope: string;\n    id_token: string;\n  }",
       "comment": "//[OAuthIAccount]"
     },
