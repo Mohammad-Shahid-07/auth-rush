@@ -17,7 +17,7 @@
   {
     "name": "authLayout",
     "files": ["layout.tsx"],
-    "type": "app"
+    "type": "app:(auth)"
   },
   {
     "name": "login",
