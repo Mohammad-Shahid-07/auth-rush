@@ -165,8 +165,13 @@
     "type": "lib"
   },
   {
-    "name": "Validations",
+    "name": "validations",
     "files": ["validations.ts"],
+    "type": "root"
+  },
+  {
+    "name": "routes",
+    "files": ["routes.ts"],
     "type": "root"
   },
   {
