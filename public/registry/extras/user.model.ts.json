@@ -1,5 +1,5 @@
 {
-  "name": "userModel",
+  "name": "user.model.ts",
   "files": [
     {
       "name": "OAuth",

@@ -1,5 +1,5 @@
 {
-  "name": "validations",
+  "name": "validations.ts",
   "files": [
     {
       "name": "twoFactorAuth",
