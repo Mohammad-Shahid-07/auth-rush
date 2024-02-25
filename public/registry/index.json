@@ -205,10 +205,9 @@
     "type": "components:ui"
   },
   {
-    "name": "alert-dialog",
-    "dependencies": ["@radix-ui/react-alert-dialog"],
-    "registryDependencies": ["button"],
-    "files": ["ui/alert-dialog.tsx"],
+    "name": "button",
+    "dependencies": ["@radix-ui/react-slot"],
+    "files": ["ui/button.tsx"],
     "type": "components:ui"
   }
 ]
