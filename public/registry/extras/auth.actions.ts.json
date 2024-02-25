@@ -11,7 +11,7 @@
       "name": "username",
       "imports": "",
       "content": "const existingUser = await User.findOne({ $or: [{ email }, { username :email }]})\n",
-      "comment": "const existingUser = await User.findOne({ email \n//[UsernameLogin]\n })\n"
+      "comment": "const existingUser = await User.findOne({ email \n//[UsernameLogin]\n })"
     },
     {
       "name": "username",
