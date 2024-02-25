@@ -15,7 +15,7 @@
       "comment": "//[credentialsSignInTwoFactor]"
     },
     {
-      "name": "OAuthbase",
+      "name": "OAuth",
       "imports": "import {LoginWithOAuth} from \"@/actions/auth.actions\";\n",
       "content": "\nif (account?.provider !== \"credentials\") {\n  await LoginWithOAuth({ user, account });\n  return true;\n}",
       "comment": "//[OAuthSignIn]"

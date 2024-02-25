@@ -1,0 +1,17 @@
+{
+  "name": "validations",
+  "files": [
+    {
+      "name": "twoFactorAuth",
+      "imports": "import Google from \"next-auth/providers/google\"; \n",
+      "content": "\n code: z.optional(\n    z.string().min(6, {\n      message: \"Please provide a code\",\n    }),\n  ),",
+      "comment": "//[TwoFactorSchema]"
+    },
+    {
+      "name": "username",
+      "imports": "import Github from \"next-auth/providers/github\";\n",
+      "content": "username: z.string().min(1, {message: \"Please provide a username\", }),\n",
+      "comment": "//[UsernameSchema] "
+    }
+  ]
+}
