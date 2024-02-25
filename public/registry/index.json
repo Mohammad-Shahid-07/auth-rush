@@ -163,5 +163,47 @@
     "name": "resend",
     "files": ["mail.ts"],
     "type": "lib"
+  },
+  {
+    "name": "card",
+    "files": ["ui/card.tsx"],
+    "type": "components:ui"
+  },
+  {
+    "name": "dialog",
+    "dependencies": ["@radix-ui/react-dialog"],
+    "files": ["ui/dialog.tsx"],
+    "type": "components:ui"
+  },
+  {
+    "name": "input",
+    "files": ["ui/input.tsx"],
+    "type": "components:ui"
+  },
+  {
+    "name": "label",
+    "dependencies": ["@radix-ui/react-label"],
+    "files": ["ui/label.tsx"],
+    "type": "components:ui"
+  },
+  {
+    "name": "form",
+    "dependencies": [
+      "@radix-ui/react-label",
+      "@radix-ui/react-slot",
+      "@hookform/resolvers",
+      "zod",
+      "react-hook-form"
+    ],
+    "registryDependencies": ["button", "label"],
+    "files": ["ui/form.tsx"],
+    "type": "components:ui"
+  },
+  {
+    "name": "alert-dialog",
+    "dependencies": ["@radix-ui/react-alert-dialog"],
+    "registryDependencies": ["button"],
+    "files": ["ui/alert-dialog.tsx"],
+    "type": "components:ui"
   }
 ]
