@@ -3,7 +3,7 @@
   "files": [
     {
       "name": "auth.config.ts",
-      "content": "//[imports]\n  export default {\n  providers: [\n\n     /*[Google]*/\n\n  /*[Github]*/ \n\n/*[Credentials]*/\n\n  // ...providers \n  ],     \n} satisfies NextAuthConfig; "
+      "content": "//[imports]\n  export default {\n  providers: [\n\n     /*[Google]*/\n\n  /*[typeof(Google)]*/ \n\n/*[Credentials]*/\n\n  // ...providers \n  ],     \n} satisfies NextAuthConfig; "
     }
   ],
   "type": "root"
