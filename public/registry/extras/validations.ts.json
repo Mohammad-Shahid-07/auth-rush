@@ -9,9 +9,9 @@
     },
     {
       "name": "username",
-      "imports": "import Github from \"next-auth/providers/github\";\n",
-      "content": "username: z.string().min(1, {message: \"Please provide a username\", }),\n",
-      "comment": "//[UsernameSchema] "
+      "imports": "",
+      "content": "export const RegisterSchema = z.object({\n username: z.string().min(1, {message: \"Please provide a username\", }),\nemail: z.string().email({\n    message: \"Please provide a valid email\",\n  }),\n  password: z.string().min(6, {\n    message: \"Please provide a password with at least 6 characters\",\n  }),\n  name: z.string().min(1, {\n    message: \"Please provide a name\",\n  }),\n});\n",
+      "comment": "export const RegisterSchema = z.object({"
     }
   ]
 }
