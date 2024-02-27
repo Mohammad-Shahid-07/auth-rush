@@ -175,6 +175,11 @@
     "type": "root"
   },
   {
+    "name": "nextauth-api",
+    "files": ["route.ts"],
+    "type": "api:nextauth"
+  },
+  {
     "name": "card",
     "files": ["ui/card.tsx"],
     "type": "components:ui"
