@@ -2,7 +2,7 @@
   "name": "Loader",
   "files": [
     {
-      "name": "",
+      "name": "Loader.tsx",
       "content": "import React from \"react\";\nimport styles from \"./styles.module.css\";\n\ninterface Props {\n  color?: string;\n  speed?: string;\n  size?: string;\n}\n\nconst Loader = ({ color, speed, size }: Props) => {\n  const dotStyle: React.CSSProperties = {\n    \"--uib-size\": size || \"100px\",\n    \"--uib-color\": color || \"black\",\n    \"--uib-speed\": speed || \"2.5s\",\n    \"--uib-dot-size\": `calc(${size || \"80px\"} * 0.18)`\n  } as React.CSSProperties;\n\n  return (\n    <div className={styles.container} style={dotStyle}>\n      <div className={styles.dot}></div>\n      <div className={styles.dot}></div>\n      <div className={styles.dot}></div>\n      <div className={styles.dot}></div>\n      <div className={styles.dot}></div>\n    </div>\n  );\n};\n\nexport default Loader;"
     },
 

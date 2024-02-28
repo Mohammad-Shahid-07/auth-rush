@@ -205,6 +205,17 @@
     "type": "actions"
   },
   {
+    "name": "LoggedIn",
+    "files": ["LoggedIn.tsx"],
+    "type": "utils"
+  },
+  {
+    "name": "currentSession",
+    "files": ["currentSession.ts"],
+    "type": "utils"
+  },
+
+  {
     "name": "routes",
     "files": ["routes.ts"],
     "type": "root"
