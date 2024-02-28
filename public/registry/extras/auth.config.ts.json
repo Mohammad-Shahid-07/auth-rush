@@ -15,7 +15,7 @@
     },
     {
       "name": "credentials",
-      "imports": "import Credentials from \"next-auth/providers/credentials\";\nimport { LoginSchema } from \"@/validations\";\nimport bcrypt from \"bcryptjs\";\nimport { GetUserByEmail } from \"@/actions/auth.action\";",
+      "imports": "import Credentials from \"next-auth/providers/credentials\";\nimport { LoginSchema } from \"@/validations\";\nimport bcrypt from \"bcryptjs\";\nimport { GetUserByEmail } from \"@/actions/auth.actions\";",
       "content": " Credentials({\n  async authorize(credentials) {\n    const validatedFields = LoginSchema.safeParse(credentials);\n    if (!validatedFields.success) {\n      return null;\n    }\n\n    if (validatedFields.success) {\n      const { email, password } = validatedFields.data;\n\n      const user = await GetUserByEmail(email);\n      if (!user || !user.password) return null;\n\n      const passwordsMatch = await bcrypt.compare(password, user.password);\n\n      if (passwordsMatch) return user;\n    }\n    return null;\n  },\n})",
       "comment": "//[Credentials]"
     }

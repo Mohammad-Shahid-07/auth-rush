@@ -170,6 +170,41 @@
     "type": "root"
   },
   {
+    "name": "UserMenu",
+    "files": ["UserMenu.tsx"],
+    "type": "components:user"
+  },
+  {
+    "name": "UserSettings",
+    "files": ["UserSettings.tsx"],
+    "type": "components:user"
+  },
+  {
+    "name": "ChooseAvatar",
+    "files": ["ChooseAvatar.tsx"],
+    "type": "components:user"
+  },
+  {
+    "name": "AccountContent",
+    "files": ["AccountContent.tsx"],
+    "type": "components:user"
+  },
+  {
+    "name": "DangerContent",
+    "files": ["DangerContent.tsx"],
+    "type": "components:user"
+  },
+  {
+    "name": "SecurityContent",
+    "files": ["SecurityContent.tsx"],
+    "type": "components:user"
+  },
+  {
+    "name": "user.actions",
+    "files": ["user.actions.ts"],
+    "type": "actions"
+  },
+  {
     "name": "routes",
     "files": ["routes.ts"],
     "type": "root"

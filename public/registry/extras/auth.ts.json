@@ -1,5 +1,5 @@
 {
-  "name": "Auth.ts",
+  "name": "auth.ts",
   "files": [
     {
       "name": "credentials",
