@@ -220,6 +220,11 @@
     "files": ["currentSession.ts"],
     "type": "lib:utils"
   },
+  {
+    "name": "useCurrentUser",
+    "files": ["useCurrentUser.ts"],
+    "type": "lib:utils"
+  },
 
   {
     "name": "routes",

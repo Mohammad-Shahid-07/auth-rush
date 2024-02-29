@@ -17,13 +17,13 @@
     {
       "name": "username",
       "imports": "",
-      "content": "username: string,\n",
+      "content": "token.username = dbUser.username;\n",
       "comment": "//[AddUsernameInToken]"
     },
     {
       "name": "username",
       "imports": "",
-      "content": "username: string,\n",
+      "content": "session.user.username = token?.username as string;\n",
       "comment": "//[AddUsernameInSession]"
     },
 
