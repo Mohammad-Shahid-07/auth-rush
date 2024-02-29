@@ -1,0 +1,10 @@
+{
+  "name": "currentSession",
+  "files": [
+    {
+      "name": "currentSession.ts",
+      "content": "\nexport const useCurrentUser=\n () => {\n        const session = useSession();\n              return session.data?.user;\n  };\n "
+    }
+  ],
+  "type": "lib:utils"
+}
