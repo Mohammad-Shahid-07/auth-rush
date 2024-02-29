@@ -272,7 +272,18 @@
     "files": ["dropdown-menu.tsx"],
     "type": "components:ui"
   },
-
+  {
+    "name": "switch",
+    "dependencies": ["@radix-ui/react-switch"],
+    "files": ["ui/switch.tsx"],
+    "type": "components:ui"
+  },
+  {
+    "name": "tabs",
+    "dependencies": ["@radix-ui/react-tabs"],
+    "files": ["ui/tabs.tsx"],
+    "type": "components:ui"
+  },
   {
     "name": "button",
     "dependencies": ["@radix-ui/react-slot"],
