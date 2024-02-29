@@ -60,6 +60,12 @@
     "type": "components:auth"
   },
   {
+    "name": "constant",
+    "files": ["constant.ts"],
+    "type": "lib"
+  },
+
+  {
     "name": "ErrorCard",
     "files": ["ErrorCard.tsx"],
     "type": "components:auth"
