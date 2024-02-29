@@ -237,6 +237,16 @@
     "type": "api:nextauth"
   },
   {
+    "name": "Prisma.user.actions",
+    "files": ["user.actions.ts"],
+    "type": "actions"
+  },
+  {
+    "name": "Prisma.auth.actions",
+    "files": ["auth.actions.ts"],
+    "type": "actions"
+  },
+  {
     "name": "card",
     "files": ["ui/card.tsx"],
     "type": "components:ui"
