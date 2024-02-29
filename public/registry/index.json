@@ -261,6 +261,13 @@
     "type": "components:ui"
   },
   {
+    "name": "dropdown-menu",
+    "dependencies": ["@radix-ui/react-dropdown-menu"],
+    "files": ["dropdown-menu.tsx"],
+    "type": "components:ui"
+  },
+
+  {
     "name": "button",
     "dependencies": ["@radix-ui/react-slot"],
     "files": ["ui/button.tsx"],
