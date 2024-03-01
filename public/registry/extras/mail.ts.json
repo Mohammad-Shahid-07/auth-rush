@@ -11,7 +11,7 @@
     {
       "name": "twoFactorAuth",
       "imports": "import {getTwoFactorConfimationByUserId} from \"@/actions/auth.actions\";\n",
-      "content": "export const sendTwoFactorTokenEmail = async (email: string, token: string) => {\n  const mailOptions = {\n    from: \"example@outlook.com\",\n    to: email,\n    subject: \"2FA Code\",\n    html: `<p>Your 2FA code: ${token}</p>`,\n  };\n  await new Promise((resolve, reject) => {\n    transporter.sendMail(mailOptions, (error: any, info: any) => {\n      if (error) {\n        console.error(error);\n        reject(error);\n      }\n      else {\n        resolve(info);\n}\n    });\n  });\n};\n",
+      "content": "export const sendTwoFactorTokenEmail = async (email: string, token: string) => {\n  const mailOptions = {\n    from: `${email}`,\n    to: email,\n    subject: \"2FA Code\",\n    html: `<p>Your 2FA code: ${token}</p>`,\n  };\n  await new Promise((resolve, reject) => {\n    transporter.sendMail(mailOptions, (error: any, info: any) => {\n      if (error) {\n        console.error(error);\n        reject(error);\n      }\n      else {\n        resolve(info);\n}\n    });\n  });\n};\n",
       "comment": "//[TwoFactorMailNodeMailer]"
     }
   ]
