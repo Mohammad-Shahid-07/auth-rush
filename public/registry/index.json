@@ -192,6 +192,12 @@
     "type": "root"
   },
   {
+    "name": "middleware",
+    "files": ["middleware.ts"],
+    "type": "root"
+  },
+
+  {
     "name": "UserMenu",
     "files": ["UserMenu.tsx"],
     "type": "components:user"
