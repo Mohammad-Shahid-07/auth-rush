@@ -29,8 +29,8 @@
 
     {
       "name": "twoFactorAuth",
-      "imports": "import {getTwoFactorConfimationByUserId} from \"@/actions/auth.actions\";\n",
-      "content": "\nif (existingUser?.twoFactorEnabled) {\n    const twoFactorConfimation = await getTwoFactorConfimationByUserId(\n      existingUser._id,\n    );\n\n    if (!twoFactorConfimation) return false;\n    await twoFactorConfimation.deleteOne();\n  }",
+      "imports": "import {getTwoFactorConfirmationByUserId} from \"@/actions/auth.actions\";\n",
+      "content": "\nif (existingUser?.twoFactorEnabled) {\n    const twoFactorConfimation = await getTwoFactorConfirmationByUserId(\n      existingUser._id,\n    );\n\n    if (!twoFactorConfimation) return false;\n    await twoFactorConfimation.deleteOne();\n  }",
       "comment": "//[credentialsSignInTwoFactor]"
     },
     {
