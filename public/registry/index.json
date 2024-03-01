@@ -1,6 +1,6 @@
 [
   {
-    "name": "auth.actions",
+    "name": "Mongo.auth.actions",
     "files": ["auth.actions.ts"],
     "type": "actions"
   },
@@ -133,22 +133,22 @@
   {
     "name": "user.model",
     "files": ["user.model.ts"],
-    "type": "models"
+    "type": "schema"
   },
   {
     "name": "two_factor_token.model",
     "files": ["two_factor_token.model.ts"],
-    "type": "models"
+    "type": "schema"
   },
   {
     "name": "forgot_pass.model",
     "files": ["forgot_pass.model.ts"],
-    "type": "models"
+    "type": "schema"
   },
   {
     "name": "email_verify.model",
     "files": ["email_verify.model.ts"],
-    "type": "models"
+    "type": "schema"
   },
   {
     "name": "settings.actions",
@@ -156,10 +156,21 @@
     "type": "actions"
   },
   {
-    "name": "database",
+    "name": "prisma",
     "files": ["database.ts"],
     "type": "lib"
   },
+  {
+    "name": "mongoose",
+    "files": ["database.ts"],
+    "type": "lib"
+  },
+  {
+    "name": "schema.prisma",
+    "files": ["schema.prisma.ts"],
+    "type": "schema"
+  },
+
   {
     "name": "nodemailer",
     "files": ["mail.ts"],
@@ -206,7 +217,7 @@
     "type": "components:user"
   },
   {
-    "name": "user.actions",
+    "name": "Mongo.user.actions",
     "files": ["user.actions.ts"],
     "type": "actions"
   },
