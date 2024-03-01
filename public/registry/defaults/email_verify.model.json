@@ -6,5 +6,5 @@
       "content": "import { Schema, model, models, Document } from \"mongoose\";\n\nexport interface IEmailVerification extends Document {\n  email: string;\n  token: string;\n  expiresAt: Date;\n}\n\nconst EmailVerificationSchema = new Schema({\n  email: {\n    type: String,\n    required: true,\n  },\n  token: {\n    type: String,\n    required: true,\n    unique: true\n  },\n  expiresAt: {\n    type: Date,\n    required: true,\n  },\n});\n\nconst EmailVerification =\n  models.EmailVerification ||\n  model<IEmailVerification>(\"EmailVerification\", EmailVerificationSchema);\n\nexport default EmailVerification;"
     }
   ],
-  "type": "models"
+  "type": "schema"
 }
