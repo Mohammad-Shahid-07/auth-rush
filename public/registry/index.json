@@ -10,7 +10,12 @@
     "type": "root"
   },
   {
-    "name": "auth",
+    "name": "Prisma.auth",
+    "files": ["auth.ts"],
+    "type": "root"
+  },
+  {
+    "name": "Mongo.auth",
     "files": ["auth.ts"],
     "type": "root"
   },
