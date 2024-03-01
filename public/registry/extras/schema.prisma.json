@@ -40,13 +40,13 @@
     {
       "name": "twoFactorAuth",
       "imports": "",
-      "content": "\nmodel TwoFactorToken {\n  id String @id @default(cuid())\n  email String\n  token String @unique\n  expires DateTime\n\n  @@unique([email, token])\n}\nmodel TwoFactorConfirmation {\n  id         String   @id @default(cuid())\n  userId     String\n  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId])\n}",
+      "content": "\nmodel TwoFactorToken {\n  id String @id @default(cuid())\n  email String\n  token String @unique\n  expiresAt DateTime\n\n  @@unique([email, token])\n}\nmodel TwoFactorConfirmation {\n  id         String   @id @default(cuid())\n  userId     String\n  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId])\n}",
       "comment": "//[TwoFactorTokenSchema]"
     },
     {
       "name": "credentials",
       "imports": "",
-      "content": "model EmailVerification {\n  id String @id @default(cuid())\n  email String\n  token String @unique\n  expiresAt DateTime\n\n  @@unique([email, token])\n}\n\n\nmodel ForgotPassword {\n  id String @id @default(cuid())\n  email String\n  token String @unique\n  expires DateTime\n\n  @@unique([email, token])\n}",
+      "content": "model EmailVerification {\n  id String @id @default(cuid())\n  email String\n  token String @unique\n  expiresAt DateTime\n\n  @@unique([email, token])\n}\n\n\nmodel ForgotPassword {\n  id String @id @default(cuid())\n  email String\n  token String @unique\n  expiresAt DateTime\n\n  @@unique([email, token])\n}",
       "comment": "//[VerificationTokenSchema]"
     }
   ]
