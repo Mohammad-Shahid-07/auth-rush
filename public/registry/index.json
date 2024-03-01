@@ -167,7 +167,7 @@
   },
   {
     "name": "schema.prisma",
-    "files": ["schema.prisma.ts"],
+    "files": ["schema.prisma"],
     "type": "schema"
   },
 
