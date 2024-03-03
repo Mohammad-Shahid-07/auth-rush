@@ -1,0 +1,130 @@
+---
+title: Installation
+description: Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.
+---
+
+import { Steps } from "nextra/components";
+
+<Steps>
+
+### Create project
+
+Start by creating a new Next.js project using `create-next-app`:
+
+```bash
+npx create-next-app@latest my-app --typescript --tailwind --eslint
+```
+
+### Run the CLI
+
+Run the `auth-fuion-test` init command to setup your project:
+
+```bash
+npx auth-fuion-test@latest init
+```
+
+### Configure fusion.json
+
+You will be asked a few questions to configure `fusion.json`:
+
+```txt showLineNumbers
+Please choose an authentication provider:
+❯ Credentials
+  Google
+  GitHub
+
+
+Configuration for credentials:
+❯ Do you want to add two-factor authentication? (yes/no)
+❯ Choose a mailing service: nodemailer / resend
+❯ Add username field? (yes/no)
+
+Configuration for magic link:
+❯ Choose a mailing service: nodemailer / resend
+```
+
+### Env variables
+
+Depending on your selection a template .env file will be created with .
+
+Don't change the names any of the env variables that are generated.
+And if you do change them, make sure to update them where they are being used in the as well.
+
+```js showLineNumbers
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+NODEMAILER_EMAIL=
+EMAIL_PASSWORD=
+
+NEXT_PUBLIC_BASE_URL=
+AUTH_SECRET=
+
+DATABASE_URL=
+# uncomment next line if you use Prisma <5.10
+ DATABASE_URL_UNPOOLED=
+
+```
+
+### App structure
+
+Here's how I structure my Next.js apps. You can use this as a reference:
+
+```txt {6-21, }
+.
+├── app
+│   ├── layout.tsx
+│   └── page.tsx
+│   ├── (auth)
+│   │   ├── login.tsx
+│   │   ├── register.tsx
+│   │   └── ...
+├── components
+│   ├── ui
+│   │   ├── alert-dialog.tsx
+│   │   ├── button.tsx
+│   │   ├── dropdown-menu.tsx
+│   │   └── ...
+│   ├── auth  // Highlighted
+│   │   ├── LoginForm.tsx
+│   │   ├── RegisterForm.tsx
+│   │   └── ...
+│   ├── user
+│   │   ├── Profile.tsx
+│   │   ├── Settings.tsx
+│   └── ...
+├── actions  // Highlighted
+│   ├── auth.actions.ts
+│   └── user.actions.ts
+├── lib
+│   ├── mail.ts
+│   ├── utils.ts
+│   ├── database.ts
+├── styles
+│   └── globals.css
+├── auth.ts
+├── auth.config.ts
+├── next.config.js
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+└── tsconfig.json
+```
+
+- UI components are placed in the components/ui folder.
+- Other components such as `<PageHeader />` and `<MainNav />`are placed in the components folder.
+- Utility functions are stored in the lib folder, with utils.ts defining the cn helper.
+- Authentication-related components are located in the components/auth folder.
+- Actions related to authentication and user are stored in the actions folder.
+- The auth.ts file contains authentication configuration.
+- auth.config.ts holds authentication configuration settings
+
+### That's it
+
+Now you have a Next.js app with authentication setup. You can start building your app.
+
+</Steps>

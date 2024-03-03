@@ -29,8 +29,8 @@
     {
       "name": "username",
       "imports": "",
-      "content": "const { name, email, password,username } = validatedFields.data;",
-      "comment": "const { name, email, password } = validatedFields.data;"
+      "content": "const { name, email, password, username } = validatedFields.data;",
+      "comment": "const { email, password, name } = validatedFields.data;"
     },
     {
       "name": "twoFactorAuth",
