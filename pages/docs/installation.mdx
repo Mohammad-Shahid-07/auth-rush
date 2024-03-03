@@ -125,6 +125,18 @@ Here's how I structure my Next.js apps. You can use this as a reference:
 
 ### That's it
 
-Now you have a Next.js app with authentication setup. You can start building your app.
+Congratulations! You have successfully set up authentication in your Next.js app. To display the logged-in user, simply add the `<UserMenu />` component. Now you can focus on building your application with confidence.
+
+```js showLineNumbers
+import UserMenu from "@/components/user/UserMenu";
+
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <UserMenu />
+    </main>
+  );
+}
+```
 
 </Steps>
