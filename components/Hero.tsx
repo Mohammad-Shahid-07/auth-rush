@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Hero = () => {
@@ -13,12 +14,15 @@ const Hero = () => {
         provides a simple and secure way to authenticate your users.
       </p>
       <div className="flex justify-center mt-16">
-        <button className="flex gap-2 font-extrabold text-xl transition px-32 p-3 btn hover:scale-105">
+        <Link
+          href={"/docs"}
+          className="flex gap-2 font-extrabold text-xl transition px-32 p-3 btn hover:scale-105"
+        >
           Get Started
-        </button>
-        <button className="flex gap-2 font-extrabold text-xl transition px-32 p-3 btn hover:scale-105">
+        </Link>
+        {/* <Link href={""} className="flex gap-2 font-extrabold text-xl transition px-32 p-3 btn hover:scale-105">
           Github
-        </button>
+        </Link> */}
       </div>
     </div>
   );

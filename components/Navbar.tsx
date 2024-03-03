@@ -29,19 +29,6 @@ const Navbar = () => {
           Github
         </Link>
       </div>
-      <div className="text-white flex items-center justify-center gap-7">
-        <Searchbar />
-
-        <Link href={"/docs"} className="hover:border-b">
-          Docs
-        </Link>
-        <Link
-          href={"/github"}
-          className="hover:border-b border-[#393149] hover:text-[#393149]"
-        >
-          Github
-        </Link>
-      </div>
     </nav>
   );
 };
