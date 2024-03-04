@@ -16,9 +16,9 @@ const Hero = () => {
       <div className="flex justify-center mt-16">
         <Link
           href={"/docs"}
-          className="flex gap-2 font-extrabold text-xl transition px-32 p-3 btn hover:scale-105"
+          className="flex gap-2 font-extrabold text-xl transition px-32 p-3  w-auto btn  hover:scale-105 max-sm:w-full  text-center mx-auto"
         >
-          Get Started
+          Docs
         </Link>
         {/* <Link href={""} className="flex gap-2 font-extrabold text-xl transition px-32 p-3 btn hover:scale-105">
           Github
