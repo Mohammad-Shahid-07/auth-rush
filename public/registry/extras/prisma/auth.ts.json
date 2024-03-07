@@ -13,6 +13,18 @@
       "content": "username: string,\n",
       "comment": "//[UsernameType]"
     },
+    {
+      "name": "username",
+      "imports": "",
+      "content": "username: username,",
+      "comment": "//[UsernamePrisma]"
+    },
+    {
+      "name": "username",
+      "imports": "",
+      "content": "const username = email.split(\"@\")[0];",
+      "comment": "//[DefUsername]"
+    },
 
     {
       "name": "username",

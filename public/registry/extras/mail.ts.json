@@ -4,7 +4,7 @@
     {
       "name": "twoFactorAuth",
       "imports": "",
-      "content": "\nexport const sendTwoFactorTokenEmail = async (\n  email: string,\n  token: string\n) => {\n  await resend.emails.send({\n    from: \"mail@auth-masterclass-tutorial.com\",\n    to: email,\n    subject: \"2FA Code\",\n    html: `<p>Your 2FA code: ${token}</p>`\n  });\n};\n",
+      "content": "\nexport const sendTwoFactorTokenEmail = async (\n  email: string,\n  token: string\n) => {\n  await resend.emails.send({\n    from: \"onboarding@resend.dev\",\n    to: email,\n    subject: \"2FA Code\",\n    html: `<p>Your 2FA code: ${token}</p>`\n  });\n};\n",
       "comment": "//[TwoFactorMailResend]"
     },
 

@@ -53,8 +53,20 @@
     {
       "name": "OAuth",
       "imports": "",
-      "content": "export async function LoginWithOAuth({ user, account }: any) {\n  try {\n    connectToDatabase();\n    const { email, name } = user;\n\n    const existingUser = await User.findOne({ email });\n    if (existingUser) {\n      existingUser.accounts = [\n        {\n          provider: account.provider,\n          providerAccountId: account.providerAccountId,\n          access_token: account.access_token,\n          expires_at: account.expires_at,\n          expires_in: account.expires_in,\n          token_type: account.token_type,\n          scope: account.scope,\n          id_token: account.id_token,\n        },\n      ];\n\n      await existingUser.save();\n      return true;\n    } else {\n      const newUser = new User({\n        name,\n        email,\n        emailVerified: Date.now(),\n        accounts: [\n          {\n            provider: account.provider,\n            providerAccountId: account.id,\n            access_token: account.accessToken,\n            expires_at: account.expiresAt,\n            token_type: account.tokenType,\n            scope: account.scope,\n            id_token: account.idToken,\n            providerId: account.id,\n          },\n        ],\n      });\n      await newUser.save();\n    }\n\n    return true;\n  } catch (error) {\n    if (error instanceof AuthError) {\n      switch (error.type) {\n        case \"OAuthSignInError\":\n          return { error: \"Please Try Again\" };\n        default:\n          return { error: \"Something went wrong!\" };\n      }\n    }\n\n    throw error;\n  }\n}",
+      "content": "export async function LoginWithOAuth({ user, account }: any) {\n  try {\n    connectToDatabase();\n    const { email, name } = user;\n\n    const existingUser = await User.findOne({ email });\n    if (existingUser) {\n      existingUser.accounts = [\n        {\n          provider: account.provider,\n          providerAccountId: account.providerAccountId,\n          access_token: account.access_token,\n          expires_at: account.expires_at,\n          expires_in: account.expires_in,\n          token_type: account.token_type,\n          scope: account.scope,\n          id_token: account.id_token,\n        },\n      ];\n\n      await existingUser.save();\n      return true;\n    } else {\n//[DefUsername]  \n      const newUser = new User({\n        name,\n//[OauthUsername]        \n        email,\n        emailVerified: Date.now(),\n        accounts: [\n          {\n            provider: account.provider,\n            providerAccountId: account.id,\n            access_token: account.accessToken,\n            expires_at: account.expiresAt,\n            token_type: account.tokenType,\n            scope: account.scope,\n            id_token: account.idToken,\n            providerId: account.id,\n          },\n        ],\n      });\n      await newUser.save();\n    }\n\n    return true;\n  } catch (error) {\n    if (error instanceof AuthError) {\n      switch (error.type) {\n        case \"OAuthSignInError\":\n          return { error: \"Please Try Again\" };\n        default:\n          return { error: \"Something went wrong!\" };\n      }\n    }\n\n    throw error;\n  }\n}",
       "comment": "//[OAuthBase]"
+    },
+    {
+      "name": "username",
+      "imports": "",
+      "content": "username",
+      "comment": "//[OauthUsername]"
+    },
+    {
+      "name": "username",
+      "imports": "",
+      "content": "const username = email.split(\"@\")[0];",
+      "comment": "//[DefUsername]"
     }
   ]
 }
