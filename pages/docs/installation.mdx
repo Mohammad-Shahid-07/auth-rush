@@ -9,6 +9,7 @@ import { Callout } from "nextra/components";
 <Steps>
 
 ### Create project
+
 <Callout type="warning" emoji="⚠️">
   This package is currently not compatible with Vanilla JavaScript. Please
   ensure that you are using TypeScript if you want to use this package.
@@ -64,7 +65,7 @@ GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
 NODEMAILER_EMAIL=
-EMAIL_PASSWORD=
+NODEMAILER_EMAIL_PASSWORD=
 
 NEXT_PUBLIC_BASE_URL=
 AUTH_SECRET=
@@ -94,7 +95,7 @@ Here's how I structure my Next.js apps. You can use this as a reference:
 │   │   ├── button.tsx
 │   │   ├── dropdown-menu.tsx
 │   │   └── ...
-│   ├── auth  
+│   ├── auth
 │   │   ├── LoginForm.tsx
 │   │   ├── RegisterForm.tsx
 │   │   └── ...
@@ -102,7 +103,7 @@ Here's how I structure my Next.js apps. You can use this as a reference:
 │   │   ├── Profile.tsx
 │   │   ├── Settings.tsx
 │   └── ...
-├── actions  
+├── actions
 │   ├── auth.actions.ts
 │   └── user.actions.ts
 ├── lib
