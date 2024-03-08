@@ -23,7 +23,7 @@
     {
       "name": "username",
       "imports": "",
-      "content": "username",
+      "content": "username,",
       "comment": "//[RegisterUsername]"
     },
     {

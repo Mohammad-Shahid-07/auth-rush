@@ -16,13 +16,13 @@
     {
       "name": "username",
       "imports": "",
-      "content": "const existingUser = await User.findOne({ $or: [{ email }, { username : email }]})\n",
-      "comment": "const existingLoginUser = await User.findOne({ $or: [{ email }]})"
+      "content": "const existingLoginUser = await User.findOne({ $or: [{ email }, { username : email }]})\n",
+      "comment": "const existingLoginUser = await User.findOne({ email })"
     },
     {
       "name": "username",
       "imports": "",
-      "content": "username",
+      "content": "username,",
       "comment": "//[RegisterUsername]"
     },
     {
@@ -59,7 +59,7 @@
     {
       "name": "username",
       "imports": "",
-      "content": "username",
+      "content": "username,",
       "comment": "//[OauthUsername]"
     },
     {

@@ -9,37 +9,25 @@
     "name": "credentials",
     "questions": [
       {
-        "question": "Do you want to add two factor authentication?",
+        "question": "Would you like to enable two-factor authentication?",
         "type": "toggle",
         "name": "twoFactorAuth",
-        "active": "yes",
-        "inactive": "no"
+        "active": "Yes",
+        "inactive": "No"
       },
       {
-        "question": "Choose an mailing service",
+        "question": "Please select a mailing service:",
         "type": "toggle",
         "name": "emailProvider",
-        "active": "nodemailer",
-        "inactive": "resend"
+        "active": "Nodemailer",
+        "inactive": "Resend"
       },
       {
-        "question": "Add username field?",
+        "question": "Do you want to include a username field?",
         "type": "toggle",
         "name": "username",
-        "active": "yes",
-        "inactive": "no"
-      }
-    ]
-  },
-  {
-    "name": "magic Link",
-    "questions": [
-      {
-        "question": "Choose an mailing service",
-        "type": "toggle",
-        "name": "emailProvider",
-        "active": "nodemailer",
-        "inactive": "resend"
+        "active": "Yes",
+        "inactive": "No"
       }
     ]
   }
