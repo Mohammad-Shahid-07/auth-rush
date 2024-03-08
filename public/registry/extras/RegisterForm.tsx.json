@@ -4,13 +4,13 @@
     {
       "name": "username",
       "imports": "",
-      "content": "\nif (!/^[a-zA-Z0-9_]+$/.test(values.username)) {\n  return setError(\n    \"Username can only contain letters, numbers, and underscores\",\n  );\n}",
+      "content": "if (!/^[a-zA-Z0-9_]+$/.test(values.username)) {\n  return setError(\n    \"Username can only contain letters, numbers, and underscores\",\n  );\n}",
       "comment": "//[UsernameValidation]"
     },
     {
       "name": "username",
       "imports": "",
-      "content": "\nusername: \"\",",
+      "content": "username: \"\",",
       "comment": "//[UsernameValue] "
     },
     {
