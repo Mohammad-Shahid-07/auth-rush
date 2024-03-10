@@ -22,7 +22,7 @@ const themeConfig = {
     </span>
   ),
   project: {
-    link: "https://github.com/Mohammad-Shahid-07/auth-fusion",
+    link: "https://github.com/Mohammad-Shahid-07/auth-rush",
   },
   chat: {
     link: "https://twitter.com/mohammad_s36921",
