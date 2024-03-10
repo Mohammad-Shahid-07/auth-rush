@@ -82,13 +82,15 @@
   .h1-bold {
     @apply text-6xl font-extrabold max-md:text-4xl;
   }
+  .logo {
+    @apply text-5xl font-extrabold;
+  }
 }
 
 .btn {
   background-image: url("../public/assets/icons/btn.svg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  
 }
 
 /* Path: app/components/button.css */

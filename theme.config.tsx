@@ -17,7 +17,7 @@ const themeConfig = {
         alt="Logo"
       />
       <p style={{ fontWeight: "bold", color: "white", fontSize: "24px" }}>
-        Auth Fusion
+        Auth Rush
       </p>
     </span>
   ),

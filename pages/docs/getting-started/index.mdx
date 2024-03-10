@@ -74,46 +74,65 @@ DATABASE_URL=
 
 Here's how I structure my Next.js apps. You can use this as a reference:
 
-```txt {5-29 }
-.
-├── app
-│   ├── layout.tsx
-│   └── page.tsx
-│   ├── (auth)
-│   │   ├── login.tsx
-│   │   ├── register.tsx
-│   │   └── ...
-├── components
-│   ├── ui
-│   │   ├── alert-dialog.tsx
-│   │   ├── button.tsx
-│   │   ├── dropdown-menu.tsx
-│   │   └── ...
-│   ├── auth
-│   │   ├── LoginForm.tsx
-│   │   ├── RegisterForm.tsx
-│   │   └── ...
-│   ├── user
-│   │   ├── Profile.tsx
-│   │   ├── Settings.tsx
-│   └── ...
-├── actions
-│   ├── auth.actions.ts
-│   └── user.actions.ts
-├── lib
-│   ├── mail.ts
-│   ├── utils.ts
-│   ├── database.ts
-├── styles
-│   └── globals.css
-├── auth.ts
-├── auth.config.ts
-├── next.config.js
-├── package.json
-├── postcss.config.js
-├── tailwind.config.js
-└── tsconfig.json
-```
+import { FileTree } from "nextra/components";
+
+<FileTree>
+  <FileTree.Folder name="app" defaultOpen>
+    <FileTree.File name="layout.tsx" />
+    <FileTree.File name="page.tsx" />
+    <FileTree.Folder name="(auth)">
+      <FileTree.File name="login.tsx" />
+      <FileTree.File name="register.tsx" />
+      <FileTree.File name="...">...</FileTree.File>
+    </FileTree.Folder>
+  </FileTree.Folder>
+
+{" "}
+<FileTree.Folder name="components" defaultOpen>
+  <FileTree.Folder name="ui">
+    <FileTree.File name="alert-dialog.tsx" />
+    <FileTree.File name="button.tsx" />
+    <FileTree.File name="dropdown-menu.tsx" />
+    <FileTree.File name="...">...</FileTree.File>
+  </FileTree.Folder>
+  <FileTree.Folder name="auth">
+    <FileTree.File name="LoginForm.tsx" />
+    <FileTree.File name="RegisterForm.tsx" />
+    <FileTree.File name="...">...</FileTree.File>
+  </FileTree.Folder>
+  <FileTree.Folder name="user">
+    <FileTree.File name="Profile.tsx" />
+    <FileTree.File name="Settings.tsx" />
+    <FileTree.File name="...">...</FileTree.File>
+  </FileTree.Folder>
+</FileTree.Folder>
+
+{" "}
+<FileTree.Folder name="actions">
+  <FileTree.File name="auth.actions.ts" />
+  <FileTree.File name="user.actions.ts" />
+</FileTree.Folder>
+
+{" "}
+<FileTree.Folder name="lib">
+  <FileTree.File name="mail.ts" />
+  <FileTree.File name="utils.ts" />
+  <FileTree.File name="database.ts" />
+</FileTree.Folder>
+
+{" "}
+<FileTree.Folder name="styles">
+  <FileTree.File name="globals.css" />
+</FileTree.Folder>
+
+  <FileTree.File name="auth.ts" />
+  <FileTree.File name="auth.config.ts" />
+  <FileTree.File name="next.config.js" />
+  <FileTree.File name="package.json" />
+  <FileTree.File name="postcss.config.js" />
+  <FileTree.File name="tailwind.config.js" />
+  <FileTree.File name="tsconfig.json" />
+</FileTree>
 
 - UI components are placed in the components/ui folder.
 - Other components such as `<PageHeader />` and `<MainNav />`are placed in the components folder.

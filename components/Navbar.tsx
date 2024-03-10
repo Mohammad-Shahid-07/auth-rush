@@ -1,9 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Input } from "./ui/input";
-import { Searchbar } from "./Searchbar";
-
 const Navbar = () => {
   return (
     <nav className="flex justify-between p-5">
@@ -16,7 +13,7 @@ const Navbar = () => {
             className=""
             alt="Logo"
           />
-          <p className="font-bold text-gray-200 text-2xl">Auth Fusion</p>
+          <p className="font-bold text-gray-200 md:text-2xl ">Auth Rush</p>
         </Link>
 
         <Link href={"/docs"} className="hover:border-b">

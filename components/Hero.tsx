@@ -1,3 +1,4 @@
+import { StickyNote } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -8,6 +9,7 @@ const Hero = () => {
       <h1 className="text-white h1-bold text-center">
         Transform Your Authentication Process with Auth Fusion
       </h1>
+      <StickyNote className="mx-auto mt-8" size={100} />
 
       <p className="text-[#8F8D94] text-[12px] mt-8 ">
         Auth Fusion is an all-in-one solution for your authentication needs. It
