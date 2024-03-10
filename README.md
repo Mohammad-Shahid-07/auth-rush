@@ -20,7 +20,7 @@ To get started with Auth Rush, follow these steps:
    npm auth-rush@latest init
    ```
 
-```
+
 
 2. Configure Auth Rush in your application by providing the necessary configuration options, such as authentication providers, roles, and permissions.
 
@@ -31,4 +31,3 @@ For more detailed information, refer to the [official documentation](https://aut
 ### Conclusion
 
 Auth Rush simplifies the implementation of authentication and authorization in web applications, allowing developers to focus on building their core features without worrying about the complexities of user management and security.
-```

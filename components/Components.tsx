@@ -8,7 +8,7 @@ const Components = () => {
       <div className="max-lg:p-10 m-auto mt-28">
         <Heading
           heading="Components"
-          subheading="With Auth Fusion, you can easily integrate the following components into your application. Each component is designed to be simple and secure, providing a seamless experience for your users."
+          subheading="With Auth Rush, you can easily integrate the following components into your application. Each component is designed to be simple and secure, providing a seamless experience for your users."
         />
       </div>
       <div className="grid grid-cols-2 gap-16  p-16  max-h-screen mx-auto max-w-screen-xl ">

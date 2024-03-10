@@ -6,9 +6,9 @@ import Navbar from "@/components/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Auth Fusion",
+  title: "Auth Rush",
   description:
-    "Auth Fusion is an all-in-one solution for your authentication needs. It provides a simple and secure way to authenticate your users.",
+    "Auth Rush is an all-in-one solution for your authentication needs. It provides a simple and secure way to authenticate your users.",
 };
 
 export default function RootLayout({

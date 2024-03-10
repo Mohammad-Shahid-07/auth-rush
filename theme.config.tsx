@@ -41,7 +41,7 @@ const themeConfig = {
       <span>
         MIT {new Date().getFullYear()} ©{" "}
         <a href="/" target="_blank">
-          Auth Fusion
+          Auth Rush
         </a>
         .
       </span>
