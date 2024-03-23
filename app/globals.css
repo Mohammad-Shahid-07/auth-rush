@@ -80,7 +80,7 @@
     @apply h-full bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-[#19181B] to-[#19181B];
   }
   .h1-bold {
-    @apply text-6xl font-extrabold max-md:text-4xl;
+    @apply text-6xl font-extrabold max-md:text-4xl max-sm:text-2xl;
   }
   .logo {
     @apply text-5xl font-extrabold;

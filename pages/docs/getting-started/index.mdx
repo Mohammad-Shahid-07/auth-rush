@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.
+description: . Customizable. Open Source.
 ---
 
 import { Steps } from "nextra/components";
@@ -28,7 +28,7 @@ npx auth-rush@latest init
 
 You will be asked a few questions to configure `fusion.json`:
 
-```txt showLineNumbers
+```json showLineNumbers
 Please choose an authentication provider:
 ❯ Credentials
   Google
@@ -88,6 +88,7 @@ import { FileTree } from "nextra/components";
   </FileTree.Folder>
 
 {" "}
+
 <FileTree.Folder name="components" defaultOpen>
   <FileTree.Folder name="ui">
     <FileTree.File name="alert-dialog.tsx" />
@@ -108,12 +109,14 @@ import { FileTree } from "nextra/components";
 </FileTree.Folder>
 
 {" "}
+
 <FileTree.Folder name="actions">
   <FileTree.File name="auth.actions.ts" />
   <FileTree.File name="user.actions.ts" />
 </FileTree.Folder>
 
 {" "}
+
 <FileTree.Folder name="lib">
   <FileTree.File name="mail.ts" />
   <FileTree.File name="utils.ts" />
@@ -121,6 +124,7 @@ import { FileTree } from "nextra/components";
 </FileTree.Folder>
 
 {" "}
+
 <FileTree.Folder name="styles">
   <FileTree.File name="globals.css" />
 </FileTree.Folder>

@@ -5,7 +5,7 @@ import Heading from "./Heading";
 const Features = () => {
   return (
     <section>
-      <div className="max-lg:p-10 m-auto mt-28">
+      <div className=" m-auto mt-28">
         <Heading
           heading="Features"
           subheading="Auth Rush is an all-in-one solution for your authentication needs. It provides a simple and secure way to authenticate your users."

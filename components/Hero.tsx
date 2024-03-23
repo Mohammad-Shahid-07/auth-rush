@@ -9,19 +9,20 @@ const Hero = () => {
       <h1 className="text-white h1-bold text-center">
         Transform Your Authentication Process with Auth Rush
       </h1>
-      <StickyNote className="mx-auto mt-8" size={100} />
 
       <p className="text-[#8F8D94] text-[12px] mt-8 ">
         Auth Rush is an all-in-one solution for your authentication needs. It
         provides a simple and secure way to authenticate your users.
       </p>
       <div className="flex justify-center mt-16">
-        <Link
-          href={"/docs"}
-          className="flex gap-2 font-extrabold text-xl transition px-32 p-3  w-auto btn  hover:scale-105 max-sm:w-full  text-center mx-auto"
-        >
-          Docs
-        </Link>
+        <div className="btn h-fit w-full text-center flex items-center justify-center hover:scale-105 transition">
+          <Link
+            href={"/docs"}
+            className="font-extrabold   p-3 text-center max-sm:text-sm  text-xl"
+          >
+            Documentation
+          </Link>
+        </div>
         {/* <Link href={""} className="flex gap-2 font-extrabold text-xl transition px-32 p-3 btn hover:scale-105">
           Github
         </Link> */}
