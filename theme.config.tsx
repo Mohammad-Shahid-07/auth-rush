@@ -81,7 +81,7 @@ const Head = () => {
       />
       <meta
         name="twitter:image"
-        content="https://auth-rush.vercel.app/ogm.jpg"
+        content="https://auth-rush.vercel.app/assets/icons/ogm.jpg"
       />
     </>
   );
@@ -228,7 +228,9 @@ const config = {
       noindex: process.env.NO_INDEX === "true",
       openGraph: {
         images: [
-          { url: "https://auth-rush.vercel.app/ogm.jpg?random=aaaaaaaaaaaaa" },
+          {
+            url: "https://auth-rush.vercel.app/assets/icons/ogm.jpg?random=aaaaaaaaaaaaa",
+          },
         ],
       },
       titleTemplate: "%s – Auth Rush Docs",
