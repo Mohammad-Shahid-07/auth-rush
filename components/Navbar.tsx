@@ -20,7 +20,8 @@ const Navbar = () => {
           Docs
         </Link>
         <Link
-          href={"/github"}
+          href={"https://github.com/Mohammad-Shahid-07/authrush"}
+          target="_blank"
           className="hover:border-b border-[#393149] hover:text-[#393149]"
         >
           Github

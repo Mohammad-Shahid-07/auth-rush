@@ -20,13 +20,11 @@ To get started with Auth Rush, follow these steps:
    npm auth-rush@latest init
    ```
 
-
-
 2. Configure Auth Rush in your application by providing the necessary configuration options, such as authentication providers, roles, and permissions.
 
 3. Integrate Auth Rush into your application's authentication flow by using the provided APIs and components.
 
-For more detailed information, refer to the [official documentation](https://auth-rush.vercel.app).
+For more detailed information, refer to the [official documentation](https://authrush.com).
 
 ### Conclusion
 

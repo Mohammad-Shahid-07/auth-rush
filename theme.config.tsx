@@ -61,7 +61,7 @@ const Head = () => {
   const { asPath, defaultLocale, locale } = useRouter();
   const { frontMatter } = useConfig();
   const url =
-    "https://auth-rush.vercel.app" +
+    "https://authrush.com" +
     (defaultLocale === locale ? asPath : `/${locale}${asPath}`);
 
   return (
@@ -81,7 +81,7 @@ const Head = () => {
       />
       <meta
         name="twitter:image"
-        content="https://auth-rush.vercel.app/assets/icons/ogm.jpg"
+        content="https://authrush.com/assets/icons/ogm.jpg"
       />
     </>
   );
@@ -188,7 +188,7 @@ const config = {
     defaultTheme: "dark",
   },
   project: {
-    link: "https://github.com/Mohammad-Shahid-07/auth-rush",
+    link: "https://github.com/Mohammad-Shahid-07/authrush",
   },
   useNextSeoProps() {
     const currentUrl = usePathname();
@@ -222,21 +222,21 @@ const config = {
         { content: "en", httpEquiv: "Content-Language" },
         { content: "Nextra", name: "apple-mobile-web-app-title" },
       ],
-      canonical: `https://auth-rush.vercel.app${currentUrl}`,
+      canonical: `https://authrush.com${currentUrl}`,
       description:
         "Docs for the best CLI for adding authentication to your Next.js app in seconds",
       noindex: process.env.NO_INDEX === "true",
       openGraph: {
         images: [
           {
-            url: "https://auth-rush.vercel.app/assets/icons/ogm.jpg?random=aaaaaaaaaaaaa",
+            url: "https://authrush.com/assets/icons/ogm.jpg?random=aaaaaaaaaaaaa",
           },
         ],
       },
       titleTemplate: "%s – Auth Rush Docs",
       twitter: {
         cardType: "summary_large_image",
-        site: "https://auth-rush.vercel.app",
+        site: "https://authrush.com",
       },
     };
   },
