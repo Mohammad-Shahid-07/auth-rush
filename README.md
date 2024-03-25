@@ -2,6 +2,7 @@
 
 ## What is Auth Rush?
 
+
 Auth Rush is a powerful authentication and authorization solution for web applications. It provides a seamless integration of various authentication providers, such as OAuth and Credentials, allowing developers to easily implement secure user authentication and authorization in their applications.
 
 ### Key Features
