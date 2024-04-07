@@ -1,0 +1,260 @@
+---
+title: user.actions.ts (Mongoose)
+description: This file contains the actions for the auth module.
+---
+
+# User Actions (Mongoose)
+
+Auth Rush provides you with some very important features that every application with authentication needs, such as changing user information, updating passwords, and much more. All of those functions are listed below with explanations on how they work.
+
+### updateUserImage
+
+This function updates the user's profile image in the database.
+
+```typescript showLineNumbers
+import { connectToDatabase } from "@/lib/database";
+import { currentUser } from "@/lib/utils/currentSession";
+import User from "@/models/user.model";
+import { revalidatePath } from "next/cache";
+```
+
+```typescript showLineNumbers
+type updateUserImageProps = {
+  image: string;
+  path: string;
+};
+
+export async function updateUserImage(params: updateUserImageProps) {
+  try {
+    const { image, path } = params;
+    connectToDatabase();
+    const userSession = await currentUser();
+    if (!userSession) {
+      return null;
+    }
+    const user = await User.findOne({ email: userSession?.email });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    user.image = image;
+    await user.save();
+    userSession.image = image;
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+```
+
+This function connects to the database, retrieves the current user session, finds the user in the database, updates the user's `image` field with the new image URL, saves the changes, updates the user session's `image` property, and revalidates the provided `path`.
+
+### updateUserNameUser
+
+This function updates the user's name and/or username in the database.
+
+```typescript showLineNumbers
+export async function updateUserNameUser(
+  values: z.infer<typeof UpdateUserSchema>,
+  pathname: string,
+) {
+  try {
+    const validatedFields = UpdateUserSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+    const { name, username } = values;
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      return {
+        error: "Username can only contain letters, numbers, and underscores",
+      };
+    }
+    connectToDatabase();
+    const userSession = await currentUser();
+    if (!userSession) {
+      return null;
+    }
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername && existingUsername.email !== userSession.email) {
+      return { error: "Username already taken" };
+    }
+    const valuesToUpdate =
+      name === userSession.name ? { username } : { name, username };
+    const user = await User.findOneAndUpdate(
+      { email: userSession?.email },
+      valuesToUpdate,
+      { new: true },
+    );
+    if (!user) {
+      return { error: "User not found" };
+    }
+    userSession.name = user.name;
+    userSession.username = user.username;
+    revalidatePath(pathname);
+    return { success: "User updated" };
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+This function connects to the database, retrieves the current user session, determines which fields need to be updated (`name` and/or `username`), finds and updates the user in the database with the new values, updates the user session's `name` and `username` properties, revalidates the provided `pathname`, and returns a success message.
+
+### setNewPassword
+
+This function sets a new password for a user.
+
+```typescript showLineNumbers
+import bcrypt from "bcryptjs";
+```
+
+```typescript showLineNumbers
+export async function setNewPassword(
+  values: z.infer<typeof SetPasswordSchema>,
+  email: string,
+  pathname: string,
+) {
+  try {
+    const validatedFields = SetPasswordSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+    const { newPassword } = values;
+    connectToDatabase();
+    const user = await User.findOne({ email });
+    if (!user) {
+      return { error: "User Not Found" };
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+    revalidatePath(pathname);
+    return {
+      success:
+        "Password Created Now You can Login With Email & Password As Well",
+    };
+  } catch (error) {
+    console.log(error);
+    return { error: "Something Went Wrong" };
+  }
+}
+```
+
+This function connects to the database, finds the user in the database based on the provided email, hashes the new password using `bcrypt`, updates the user's `password` field with the hashed password, saves the changes to the database, revalidates the provided `path`, and returns a success message.
+
+### changePassword
+
+This function changes the user's password.
+
+```typescript showLineNumbers
+export async function changePassword(
+  values: z.infer<typeof SetPasswordSchema>,
+  email: string,
+  pathname: string,
+) {
+  try {
+    const validatedFields = SetPasswordSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+    const { oldPassword, newPassword } = values;
+    if (!oldPassword) return { error: "Please enter your old password" };
+    connectToDatabase();
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return { error: "User Not Found" };
+    }
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isMatch) {
+      return { error: "Old password is incorrect" };
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+    revalidatePath(pathname);
+    return { success: "Password Updated" };
+  } catch (error) {
+    return { error: "Something Went Wrong" };
+  }
+}
+```
+
+This function connects to the database, finds the user in the database based on the provided email, verifies the `oldPassword` by comparing it with the user's current password, hashes the `newPassword` using `bcrypt`, updates the user's `password` field with the new hashed password, saves the changes to the database, revalidates the provided `path`, and returns a success message.
+
+### deleteUser
+
+This function deletes the user's account from the database.
+
+```typescript showLineNumbers
+import { signOut } from "@/auth";
+```
+
+```typescript showLineNumbers
+export async function deleteUser(password: string) {
+  try {
+    connectToDatabase();
+    const userSession = await currentUser();
+
+    const user = await User.findOne({ email: userSession?.email });
+    if (!user) {
+      return { error: "User not found" };
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return { error: "Password is incorrect" };
+    }
+    await User.findOneAndDelete({ email: user.email });
+    await signOut();
+    return { success: "User deleted successfully" };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+```
+
+This function connects to the database, retrieves the current user session, finds the user in the database based on the email, verifies the provided `password` by comparing it with the user's current password, deletes the user from the database if the password is correct, signs out the user from the session, and returns a success message.
+
+### TwoFactorSystem
+
+This function enables or disables the two-factor authentication system for the user.
+
+```typescript showLineNumbers
+export async function TwoFactorSystem(params: {
+  path: string;
+  twoFactorEnabled: boolean;
+}) {
+  try {
+    connectToDatabase();
+    const { path, twoFactorEnabled } = params;
+    const userSession = await currentUser();
+    if (!userSession) {
+      return { error: "User session not found" };
+    }
+    const user = await User.findOne({ email: userSession.email });
+
+    if (!user) {
+      return { error: "User not found" };
+    }
+    if (user.password) {
+      user.twoFactorEnabled = twoFactorEnabled;
+      await user.save();
+      revalidatePath(path);
+    }
+
+    return {
+      success: `Two Factor Authentication is ${
+        user.twoFactorEnabled ? "Enabled" : "Disabled"
+      }`,
+    };
+  } catch (error) {
+    console.error("Error in TwoFactorSystem:", error);
+
+    throw error;
+  }
+}
+```
+
+This function connects to the database, retrieves the current user session, finds the user in the database based on the email, updates the user's `twoFactorEnabled` field with the provided `twoFactorEnabled` value if the user has a password set, saves the changes to the database, revalidates the provided `path`, and returns a success message indicating whether two-factor authentication is enabled or disabled.

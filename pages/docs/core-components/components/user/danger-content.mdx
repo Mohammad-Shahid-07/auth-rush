@@ -1,0 +1,212 @@
+Certainly! Below is the documentation for the provided React components:
+
+---
+
+## Security Content Component
+
+The Security Content component (`SecurityContent`) is a React component designed to manage account security settings. It provides functionalities for changing passwords and enabling/disabling two-factor authentication.
+
+### Props
+
+This component does not accept any props.
+
+### Usage
+
+```tsx
+<SecurityContent />
+```
+
+### Description
+
+The `SecurityContent` component displays a card interface with options to change passwords and manage two-factor authentication settings. It retrieves user information from the database to determine the type of action required (new password or change password).
+
+### Sub-components
+
+1. **Password Form**: Allows users to change or set a new password. It includes fields for old password, new password, and confirmation of the new password.
+
+2. **Two-Factor Toggle**: Enables users to enable or disable two-factor authentication for their accounts.
+
+### Dependencies
+
+- `react`
+- `react-hook-form`
+- `zod`
+- `@hookform/resolvers/zod`
+- `next/navigation` (for getting the current pathname)
+- `@/validations` (contains validation schemas)
+- `@/actions/user.actions` (contains functions for updating user information)
+- `@/actions/auth.actions` (contains functions for retrieving user information from the database)
+- `@/components/ui` (contains UI components like buttons, forms, etc.)
+- `@/components/auth` (contains authentication-related components like loaders, form errors, etc.)
+
+---
+
+## Two-Factor Toggle Component
+
+The Two-Factor Toggle component (`TwoFactorToggle`) is a sub-component of the Security Content component. It provides a switch interface for enabling or disabling two-factor authentication.
+
+### Props
+
+- `user` (string): JSON stringified user object containing information about two-factor authentication settings.
+
+### Usage
+
+This component is used internally within the `SecurityContent` component.
+
+### Description
+
+The `TwoFactorToggle` component renders a switch interface that allows users to toggle the state of two-factor authentication for their accounts. It retrieves the initial value of the switch from the user object passed as a prop.
+
+### Dependencies
+
+- `react`
+- `@hookform/resolvers/zod`
+- `next/navigation` (for getting the current pathname)
+- `@/actions/user.actions` (contains functions for updating user information)
+- `@/components/ui` (contains UI components like switches, forms, etc.)
+
+---
+
+This documentation provides an overview of the functionality, props, usage, and dependencies of the `SecurityContent` and `TwoFactorToggle` components in your React application.
+
+```tsx
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DeleteAccountSchema } from "@/validations";
+import { deleteUser } from "@/actions/user.actions";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { FormError } from "@/components/auth/FormError";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
+
+const DangerContent = () => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-xl font-bold text-rose-500">
+          Danger
+        </CardTitle>
+        <CardDescription className="text-slate-700">
+          Once you delete your account, there is no going back. Please be
+          certain.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button
+              variant="destructive"
+              className="mt-5 bg-red-500 text-white"
+            >
+              Delete Account
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] bg-white">
+            <DialogHeader>
+              <DialogTitle className="text-red-500">Delete Account</DialogTitle>
+              <DialogDescription className="text-slate-700">
+                Please enter your password to confirm account deletion.
+              </DialogDescription>
+            </DialogHeader>
+            <DeleteForm />
+          </DialogContent>
+        </Dialog>
+      </CardContent>
+    </Card>
+  );
+};
+
+const DeleteForm = ({ className }: React.ComponentProps<"form">) => {
+  const [error, setError] = useState<string | undefined>("");
+  const [isPending, setIsPending] = useState<boolean | undefined>(false);
+  const form = useForm<z.infer<typeof DeleteAccountSchema>>({
+    resolver: zodResolver(DeleteAccountSchema),
+    defaultValues: {
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof DeleteAccountSchema>) => {
+    try {
+      setIsPending(true);
+      setError("");
+      const res = await deleteUser(values.password);
+      if (res.error) {
+        setError(res.error);
+      }
+    } catch (error) {
+      setError("Something Went Wrong");
+    } finally {
+      setIsPending(false);
+    }
+  };
+
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn("grid items-start gap-4", className)}
+      >
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="space-y-3.5">
+              <FormLabel className="font-semibold text-slate-700">
+                Password
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="******"
+                  type="password"
+                  {...field}
+                  className="no-focus border-slate-400 text-gray-600 border"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormError message={error} />
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="mb-2 rounded-lg bg-red-500 text-white"
+        >
+          Delete Account
+        </Button>
+      </form>
+    </Form>
+  );
+};
+
+export default DangerContent;
+```
+
+This component provides a form to delete the user account. It includes a password input field and a button to confirm the deletion. Upon submission, it triggers the deletion action and displays any errors that may occur during the process.

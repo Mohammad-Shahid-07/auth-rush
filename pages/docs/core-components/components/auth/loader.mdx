@@ -1,0 +1,56 @@
+---
+title: Loader.tsx
+description: Display a customizable loader animation.
+---
+
+# Loader.tsx
+
+The `Loader` component displays a customizable loader animation. It utilizes CSS modules for styling and accepts props to customize the loader's color, speed, and size.
+
+## Example Usage
+
+```tsx
+import React from "react";
+import styles from "./styles.module.css";
+
+interface Props {
+  color?: string;
+  speed?: string;
+  size?: string;
+}
+
+const Loader = ({ color, speed, size }: Props) => {
+  const dotStyle: React.CSSProperties = {
+    "--uib-size": size || "100px",
+    "--uib-color": color || "black",
+    "--uib-speed": speed || "2.5s",
+    "--uib-dot-size": `calc(${size || "80px"} * 0.18)`
+  } as React.CSSProperties;
+
+  return (
+    <div className={styles.container} style={dotStyle}>
+      <div className={styles.dot}></div>
+      <div className={styles.dot}></div>
+      <div className={styles.dot}></div>
+      <div className={styles.dot}></div>
+      <div className={styles.dot}></div>
+    </div>
+  );
+};
+
+export default Loader;
+```
+
+## Props
+
+| Name      | Type     | Description                               |
+|-----------|----------|-------------------------------------------|
+| `color`   | `string` | The color of the loader animation.        |
+| `speed`   | `string` | The speed of the loader animation.        |
+| `size`    | `string` | The size of the loader animation.         |
+
+## Additional Notes
+
+- The `Loader` component provides a customizable loader animation for indicating loading or processing states in an application.
+- Developers can adjust the color, speed, and size of the loader by passing props to the component.
+- Styling for the loader is defined using CSS modules, allowing for encapsulation and easy customization.

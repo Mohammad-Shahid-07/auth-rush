@@ -1,4 +1,8 @@
 {
+  "-- Getting Started": {
+    "type": "separator",
+    "title": "Getting Started"
+  },
   "index": {
     "title": "Introduction",
     "theme": {
@@ -7,12 +11,17 @@
       "toc": false
     }
   },
-  "getting-started": "Getting Started",
+
+  "installation": "Installation",
   "--1": {
     "type": "separator"
   },
   "modifications": "Modifications",
-  "core-components": "Core Components",
+  "-- Code You Will Get": {
+    "type": "separator",
+    "title": "Code You Will Get"
+  },
+  "core-components": "",
   "--2": {
     "type": "separator"
   },

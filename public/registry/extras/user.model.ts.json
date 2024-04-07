@@ -10,50 +10,50 @@
     {
       "name": "credentials",
       "imports": "",
-      "content": "\npassword?: string;\nemailVerified?: Date;\n",
+      "content": "password?: string;\nemailVerified?: Date;",
       "comment": "//[CredentialsIuser]"
     },
     {
       "name": "username",
       "imports": "",
-      "content": "\nusername: string;\n",
+      "content": "username: string;",
       "comment": "//[CredentialsUsernameIUser]"
     },
     {
       "name": "username",
       "imports": "",
-      "content": "username: { type: String, required: true, unique: true },\n",
+      "content": "username: { type: String, required: true, unique: true },",
       "comment": "//[CredentialsUsernameUserSchema]"
     },
 
     {
       "name": "OAuth",
       "imports": "",
-      "content": "\naccounts: IAccount[];\n",
+      "content": "accounts: IAccount[];",
       "comment": "//[OAuthIUser]"
     },
     {
       "name": "twoFactorAuth",
       "imports": "",
-      "content": "\ntwoFactorEnabled: boolean;",
+      "content": "twoFactorEnabled: boolean;",
       "comment": "//[CredentialsTwoFactorIUser]"
     },
     {
       "name": "credentials",
       "imports": "",
-      "content": "password: { type: String },\nemailVerified: { type: Date, default: null },\n",
+      "content": "password: { type: String },\nemailVerified: { type: Date, default: null },",
       "comment": "//[CredentialsUserSchema]"
     },
     {
       "name": "OAuth",
       "imports": "",
-      "content": "\naccounts: [\n  {\n    provider: String,\n    providerAccountId: { type: String, index: true },\n    refresh_token: String,\n    access_token: String,\n    expires_at: Number,\n    expires_in: Number,\n    token_type: String,\n    scope: String,\n    id_token: String,\n  },\n], ",
+      "content": "accounts: [\n  {\n    provider: String,\n    providerAccountId: { type: String, index: true },\n    refresh_token: String,\n    access_token: String,\n    expires_at: Number,\n    expires_in: Number,\n    token_type: String,\n    scope: String,\n    id_token: String,\n  },\n], ",
       "comment": "//[OAuthUserSchema]"
     },
     {
       "name": "twoFactorAuth",
       "imports": "",
-      "content": "\ntwoFactorEnabled: { type: Boolean, default: false },",
+      "content": "twoFactorEnabled: { type: Boolean, default: false },",
       "comment": "//[CredentialsTwoFactor]"
     }
   ]

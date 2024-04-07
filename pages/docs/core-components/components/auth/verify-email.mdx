@@ -1,0 +1,74 @@
+---
+title: VerifyEmailForm.tsx
+description: Display a form for verifying email address.
+---
+
+# VerifyEmailForm.tsx
+
+The `VerifyEmailForm` component displays a form for verifying an email address. It utilizes `useSearchParams` for retrieving the token from the URL query parameters and `verifyToken` for verifying the token's validity.
+
+```tsx
+"use client";
+import { useSearchParams } from "next/navigation";
+import Loader from "@/components/auth/Loader";
+import { CardWrapper } from "@/components/auth/CardWrapper";
+import { useCallback, useEffect, useState } from "react";
+import { verifyToken } from "@/actions/auth.actions";
+import { FormSuccess } from "@/components/auth/FormSuccess";
+import { FormError } from "@/components/auth/FormError";
+
+const VerifyEmailForm = () => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  const onSubmit = useCallback(() => {
+    if (success || error) return;
+    if (!token) {
+      setError("No token provided");
+      return;
+    }
+    verifyToken(token)
+      .then((res) => {
+        if (res?.error) {
+          setError(res?.error);
+        } else {
+          setSuccess(res?.success!);
+        }
+      })
+      .catch((err) => {
+        setError("Something went wrong");
+      });
+  }, [token, success, error]);
+
+  useEffect(() => {
+    onSubmit();
+  }, [onSubmit]);
+```
+
+```tsx
+
+  return (
+    <CardWrapper
+      headerLabel="Verify your email address"
+      BackButtonLabel="Back to login"
+      BackButtonHref="/login"
+    >
+      <div className="flex items-center w-full justify-center">
+        {!success && !error && <Loader />}
+        <FormSuccess message={success} />
+        {!success && <FormError message={error} />}
+      </div>
+    </CardWrapper>
+  );
+};
+
+export default VerifyEmailForm;
+```
+
+## Additional Notes
+
+- The `VerifyEmailForm` component provides a form for users to verify their email address by verifying a token.
+- It displays a loader while verifying the token and shows success or error messages accordingly.
+- Developers can customize the appearance and behavior of the form as needed.

@@ -1,0 +1,13 @@
+{
+ "docs": {
+    "type": "page",
+    "title": "Documentation"
+  },
+
+  "project-link": {
+    "title": "Homepage ↗",
+    "type": "page",
+    "href": "https://authrush.com",
+    "newWindow": true
+  }
+}

@@ -1,0 +1,42 @@
+---
+title: FormSuccess.tsx
+description: Display success messages in a styled component for forms.
+---
+
+# FormSuccess.tsx
+
+The `FormSuccess` component is used to display success messages in a styled component for forms. It utilizes the `CheckCircle` icon from Lucide React to visually represent the success message.
+
+## Example Usage
+
+```tsx
+import React from 'react';
+import { CheckCircle } from 'lucide-react';
+
+interface FormSuccessProps {
+  message?: string;
+}
+
+export const FormSuccess = ({ message }: FormSuccessProps) => {
+  if (!message) return null;
+
+  return (
+    <div className='bg-emerald-500/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-emerald-500'>
+      <CheckCircle className='h-4 w-4' />
+      <p>{message}</p>
+    </div>
+  );
+};
+```
+
+## Props
+
+| Name      | Type     | Description                           |
+|-----------|----------|---------------------------------------|
+| `message` | `string` | The success message to be displayed.  |
+
+## Additional Notes
+
+- The `FormSuccess` component provides a visually appealing way to display success messages within forms.
+- It dynamically renders based on the presence of the `message` prop.
+- Developers can easily customize the styling and behavior of the success message component.

@@ -1,0 +1,52 @@
+---
+title: CardWrapper.tsx
+description: Auth Rush provides a set of web pages that you can use to build your application.
+---
+
+# CardWrapper.tsx
+
+This component serves as a wrapper for displaying content within a card layout. It utilizes various sub-components, such as `Card`, `CardContent`, `CardFooter`, `CardHeader`, `BackButton`, `Social`, and `Header`. The `CardWrapper` component is designed to be reusable and customizable, allowing you to pass in different props to control the content and behavior of the card.
+
+```tsx showLineNumbers
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { BackButton } from "@/components/auth/BackButton";
+import { Social } from "@/components/auth/Social";
+import { Header } from "@/components/auth/Header";
+```
+
+```tsx showLineNumbers
+interface CardWrapperProps {
+  children: React.ReactNode;
+  headerLabel?: string;
+  BackButtonLabel?: string;
+  BackButtonHref: string;
+  showSocial?: boolean;
+}
+
+export const CardWrapper = ({
+  children,
+  headerLabel,
+  BackButtonLabel,
+  BackButtonHref,
+  showSocial,
+}: CardWrapperProps) => {
+  return (
+    <Card className="w-[400px] shadow-md">
+      <CardHeader>
+        <Header label={headerLabel} />
+      </CardHeader>
+      <CardContent>{children}</CardContent>
+      {showSocial && (
+        <CardFooter>
+          <Social />
+        </CardFooter>
+      )}
+      <CardFooter>
+        <BackButton href={BackButtonHref} label={BackButtonLabel} />
+      </CardFooter>
+    </Card>
+  );
+};
+```
+
+This component can be used in various scenarios where you need to display content within a card layout. For example, in a dashboard application, you could use this component to display different types of information or statistics within cards. Additionally, in a content management system, you could use this component to display previews or summaries of articles or blog posts within cards.

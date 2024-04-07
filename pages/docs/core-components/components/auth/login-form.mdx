@@ -1,0 +1,538 @@
+---
+title: LoginForm.tsx
+description: Display a login form with validation and submission functionality.
+---
+
+# LoginForm.tsx
+
+The `LoginForm` component is one of the few components that can change Depending on you configurations of rush.json
+
+The `LoginForm` component displays a login form with validation and submission functionality. It utilizes React Hook Form for form management, Zod for schema validation, and transitions for smooth loading states.
+
+## Login Form (Without credentials)
+
+```tsx
+"use client";
+//[imports]
+
+import React, { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { LoginSchema } from "@/validations";
+import * as z from "zod";
+import { LoginUser } from "@/actions/auth.actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { CardWrapper } from "@/components/auth/CardWrapper";
+```
+
+```tsx
+export const LoginForm = () => {
+  //[TwoFactorState]
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email aleady in use. Please login with diffrent Provider!"
+      : "";
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof LoginSchema>) {
+    startTransition(() => {
+      setError("");
+      setSuccess("");
+
+      LoginUser(values)
+        .then((res) => {
+          if (res?.error) {
+            form.reset();
+            setError(res?.error);
+          }
+          if (res?.success) {
+            form.reset();
+            setSuccess(res?.success!);
+            //[TwoFactorClientFunctionality]
+          }
+        })
+        .catch((err) => {
+          setError(err?.message);
+        });
+    });
+  }
+
+  //[showTwoFactor]
+
+  return (
+    <CardWrapper BackButtonHref="/" BackButtonLabel="Go Back" showSocial>
+      <p>
+        to continue to{" "}
+        <span className="font-bold space-x-1 text-gray-800">Auth Rush</span>
+      </p>
+    </CardWrapper>
+  );
+};
+```
+
+### Login Form (With credentials)
+
+```tsx
+"use client";
+import React, { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { LoginSchema } from "@/validations";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { FormError } from "@/components/auth/FormError";
+import { FormSuccess } from "@/components/auth/FormSuccess";
+import { LoginUser } from "@/actions/auth.actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { CardWrapper } from "@/components/auth/CardWrapper";
+```
+
+```tsx
+export const LoginForm = () => {
+  //[TwoFactorState]
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email aleady in use. Please login with diffrent Provider!"
+      : "";
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const formFieldLabels = {
+    label: "Email",
+    type: "email",
+    placeholder: "jogn.doe@example.com",
+  };
+
+  async function onSubmit(values: z.infer<typeof LoginSchema>) {
+    setSuccess("");
+    setError("");
+    startTransition(() => {
+      LoginUser(values)
+        .then((res) => {
+          if (res?.error) {
+            form.reset();
+            setError(res?.error);
+          }
+          if (res?.success) {
+            form.reset();
+            setSuccess(res?.success!);
+            //[TwoFactorClientFunctionality]
+          }
+        })
+        .catch((err) => {
+          setError(err?.message);
+        });
+    });
+  }
+
+  //[showTwoFactor]
+
+  return (
+    <CardWrapper
+      headerLabel="Welcome back!"
+      BackButtonLabel="Don't have an account?"
+      BackButtonHref="/register"
+      showSocial
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="space-y-6">
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{formFieldLabels.label}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={formFieldLabels.placeholder}
+                        type={formFieldLabels.type}
+                        disabled={isPending}
+                        {...field}
+                        className="w-full bg-slate-950 border-slate-700 text-gray-400 ring-0 focus:border-none focus:ring-0 border"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="password"
+                        disabled={isPending}
+                        type="password"
+                        {...field}
+                        className="w-full bg-slate-950 border-slate-700 text-gray-400 ring-0 focus:border-none focus:ring-0 border"
+                      />
+                    </FormControl>
+                    <Button
+                      variant="link"
+                      asChild
+                      className="px-1 font-normal"
+                      disabled={isPending}
+                    >
+                      <Link href="/reset">Forgot Password?</Link>
+                    </Button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          </div>
+          <FormError message={error || urlError} />
+          <FormSuccess message={success} />
+          {isPending ? (
+            <Loader color="white" />
+          ) : (
+            <Button
+              type="submit"
+              className="w-full text-white bg-slate-800"
+              disabled={isPending}
+            >
+              Login
+            </Button>
+          )}
+        </form>
+      </Form>
+    </CardWrapper>
+  );
+};
+```
+
+### Login Form (With username)
+
+```tsx
+export const LoginForm = () => {
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email aleady in use. Please login with diffrent Provider!"
+      : "";
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const formFieldLabels = {
+    label: "Email",
+    type: "email",
+    placeholder: "email",
+  };
+
+  async function onSubmit(values: z.infer<typeof LoginSchema>) {
+    setSuccess("");
+    setError("");
+    startTransition(() => {
+      LoginUser(values)
+        .then((res) => {
+          if (res?.error) {
+            form.reset();
+            setError(res?.error);
+          }
+          if (res?.success) {
+            form.reset();
+            setSuccess(res?.success!);
+          }
+        })
+        .catch((err) => {
+          setError(err?.message);
+        });
+    });
+  }
+
+  return (
+    <CardWrapper
+      headerLabel="Welcome back!"
+      BackButtonLabel="Don't have an account?"
+      BackButtonHref="/register"
+      showSocial
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="space-y-6">
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{formFieldLabels.label}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={formFieldLabels.placeholder}
+                        type={formFieldLabels.type}
+                        disabled={isPending}
+                        {...field}
+                        className="w-full bg-slate-950 border-slate-700 text-gray-400 ring-0 focus:border-none focus:ring-0 border"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="password"
+                        disabled={isPending}
+                        type="password"
+                        {...field}
+                        className="w-full bg-slate-950 border-slate-700 text-gray-400 ring-0 focus:border-none focus:ring-0 border"
+                      />
+                    </FormControl>
+                    <Button
+                      variant="link"
+                      asChild
+                      className="px-1 font-normal"
+                      disabled={isPending}
+                    >
+                      <Link href="/reset">Forgot Password?</Link>
+                    </Button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          </div>
+          <FormError message={error || urlError} />
+          <FormSuccess message={success} />
+          <Button
+            type="submit"
+            className="w-full text-white bg-slate-800"
+            disabled={isPending}
+          >
+            Login
+          </Button>
+        </form>
+      </Form>
+    </CardWrapper>
+  );
+};
+```
+
+### Login Form (With twoFactor)
+
+```tsx
+export const LoginForm = () => {
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
+
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email aleady in use. Please login with diffrent Provider!"
+      : "";
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const formFieldLabels = {
+    label: "Email or Username",
+    type: "text",
+    placeholder: "email or username",
+  };
+
+  async function onSubmit(values: z.infer<typeof LoginSchema>) {
+    setSuccess("");
+    setError("");
+    startTransition(() => {
+      LoginUser(values)
+        .then((res) => {
+          if (res?.error) {
+            form.reset();
+            setError(res?.error);
+          }
+          if (res?.success) {
+            form.reset();
+            setSuccess(res?.success!);
+
+            if (res?.twoFactor) {
+              setShowTwoFactor(true);
+            }
+          }
+        })
+        .catch((err) => {
+          setError(err?.message);
+        });
+    });
+  }
+
+  if (showTwoFactor) {
+    return (
+      <CardWrapper
+        headerLabel="Welcome back!"
+        BackButtonLabel="Don't have an account?"
+        BackButtonHref="/register"
+        showSocial
+      >
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Code</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="123456"
+                        type="number"
+                        disabled={isPending}
+                        {...field}
+                        className="w-full bg-slate-950 border-slate-700 text-gray-400 ring-0 focus:border-none focus:ring-0 border"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormError message={error || urlError} />
+            <FormSuccess message={success} />
+            <Button
+              type="submit"
+              className="w-full text-white bg-slate-800"
+              disabled={isPending}
+            >
+              Verify
+            </Button>
+          </form>
+        </Form>
+      </CardWrapper>
+    );
+  }
+
+  return (
+    <CardWrapper
+      headerLabel="Welcome back!"
+      BackButtonLabel="Don't have an account?"
+      BackButtonHref="/register"
+      showSocial
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="space-y-6">
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{formFieldLabels.label}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={formFieldLabels.placeholder}
+                        type={formFieldLabels.type}
+                        disabled={isPending}
+                        {...field}
+                        className="w-full bg-slate-950 border-slate-700 text-gray-400 ring-0 focus:border-none focus:ring-0 border"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="password"
+                        disabled={isPending}
+                        type="password"
+                        {...field}
+                        className="w-full bg-slate-950 border-slate-700 text-gray-400 ring-0 focus:border-none focus:ring-0 border"
+                      />
+                    </FormControl>
+                    <Button
+                      variant="link"
+                      asChild
+                      className="px-1 font-normal"
+                      disabled={isPending}
+                    >
+                      <Link href="/reset">Forgot Password?</Link>
+                    </Button>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          </div>
+          <FormError message={error || urlError} />
+          <FormSuccess message={success} />
+          <Button
+            type="submit"
+            className="w-full text-white bg-slate-800"
+            disabled={isPending}
+          >
+            Login
+          </Button>
+        </form>
+      </Form>
+    </CardWrapper>
+  );
+};
+```
+
+## Additional Notes
+
+- The `LoginForm` component provides a complete login form with validation and submission functionality.
+- It handles error messages, success messages, and loading states for a seamless user experience.
+- Developers can easily customize the form's appearance and behavior to suit their application's needs.

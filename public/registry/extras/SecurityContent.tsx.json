@@ -10,7 +10,7 @@
     {
       "name": "twoFactorAuth",
       "imports": "",
-      "content": "       <TwoFactorToggle user={JSON.stringify(user)} />\n",
+      "content": "       <TwoFactorToggle user={JSON.stringify(user)} />",
       "comment": "{/*TwoFactorToggle*/}"
     }
   ]

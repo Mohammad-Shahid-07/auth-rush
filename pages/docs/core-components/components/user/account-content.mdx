@@ -1,0 +1,199 @@
+---
+title: AccountContent.tsx
+description: Display account information and allow users to make changes.
+---
+
+# AccountContent.tsx
+
+The `AccountContent` component displays account information and allows users to make changes to their account details. It includes fields for username and name, along with options to change the avatar. The component utilizes React Hook Form for form management, Zod for schema validation, and Next.js hooks for navigation and session management.
+
+## Example Usage
+
+```tsx
+"use client";
+import React, { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { useForm } from 'react-hook-form';
+import { UpdateUserSchema } from '@/validations';
+import * as z from 'zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormError } from '@/components/auth/FormError';
+import { FormSuccess } from '@/components/auth/FormSuccess';
+import { zodResolver } from '@hookform/resolvers/zod';
+import ChooseAvatar from '@/components/user/ChooseAvatar';
+import { updateUserNameUser } from '@/actions/user.actions';
+import { usePathname } from 'next/navigation';
+import { useSession } from "next-auth/react";
+import { useCurrentUser } from '@/lib/utils/useCurrentUser';
+import Loader from '@/components/auth/Loader';
+
+const AccountContent = () => {
+  // State variables for managing form submission and response
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, setIsPending] = useState<boolean | undefined>(false);
+
+  // Fetch current user data
+  const user = useCurrentUser();
+
+  // Initialize form with default values from user data
+  const form = useForm<z.infer<typeof UpdateUserSchema>>({
+    resolver: zodResolver(UpdateUserSchema),
+    defaultValues: {
+      name: user?.name || "",
+      username: user?.username || "",
+    },
+  });
+
+  // Function to handle form submission
+  async function onSubmit(values: z.infer<typeof UpdateUserSchema>) {
+    try {
+      setIsPending(true);
+      setSuccess("");
+      setError("");
+
+      // Perform validation checks
+      if (!/^[a-zA-Z0-9_]+$/.test(values.username)) {
+        return setError("Username can only contain letters, numbers, and underscores");
+      }
+
+      // Call API to update user information
+      await updateUserNameUser({
+        name: values.name,
+        username: values.username,
+        pathname: usePathname(),
+      })
+        .then((res) => {
+          if (res?.error) {
+            setError(res.error);
+          }
+          if (res?.success) {
+            setSuccess(res.success);
+          }
+        })
+        .catch((error) => {
+          setError(error);
+        });
+
+      // Refresh session after update
+      await useSession().update();
+    } catch (error) {
+      setError("Something went wrong");
+    } finally {
+      setIsPending(false);
+    }
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-slate-800 font-bold">Account</CardTitle>
+        <CardDescription className="text-slate-700">
+          Make changes to your account here. Click save when you're done.
+        </CardDescription>
+      </CardHeader>
+      {form.getValues("name") ? (
+        <CardContent className="space-y-2">
+          {/* Dialog for changing avatar */}
+          <Dialog>
+            <DialogTrigger>
+              <div className="flex w-full gap-28">
+                <div className="rounded-full">
+                  <Image
+                    src={user?.image}
+                    alt="profile"
+                    width={60}
+                    height={68}
+                    className="w-20 h-20 rounded-full"
+                  />
+                </div>
+                <span className="flex gap-2 items-center justify-center text-gray-800 hover:text-black">
+                  Change Avatar <ArrowRight />
+                </span>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="p-0 w-full border-none">
+              <ChooseAvatar />
+            </DialogContent>
+          </Dialog>
+
+          {/* Account information form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold text-slate-800">Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="username"
+                          type="text"
+                          disabled={isPending}
+                          {...field}
+                          className="no-focus border-slate-400 text-gray-600"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold text-slate-800">Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="name"
+                          type="text"
+                          disabled={isPending}
+                          {...field}
+                          className="no-focus border-slate-400 text-gray-600"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormError message={error} />
+             
+
+ <FormSuccess message={success} />
+              <Button
+                type="submit"
+                className="w-full text-white bg-slate-800"
+                disabled={isPending}
+              >
+                Save
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      ) : (
+        // Show loader if user data is not available
+        <div className="m-10">
+          <Loader color="white" />
+        </div>
+      )}
+    </Card>
+  );
+};
+
+export default AccountContent;
+```
+
+## Additional Notes
+
+- The `AccountContent` component allows users to update their account information such as username and name.
+- It includes form validation and error handling for a seamless user experience.
+- The component also provides an option to change the user's avatar.

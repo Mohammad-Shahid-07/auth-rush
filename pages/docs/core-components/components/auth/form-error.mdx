@@ -1,0 +1,42 @@
+---
+title: FormError.tsx
+description: Display error messages in a styled component for forms.
+---
+
+# FormError.tsx
+
+The `FormError` component is used to display error messages in a styled component for forms. It utilizes the `AlertTriangle` icon from Lucide React to visually represent the error message.
+
+## Example Usage
+
+```tsx
+import { AlertTriangle } from 'lucide-react';
+
+interface FormErrorProps {
+  message?: string;
+}
+
+export const FormError = ({ message }: FormErrorProps) => {
+  if (!message) return null;
+
+  return (
+    <div className='bg-red-400/35 p-3 text-red-500 rounded-md flex items-center gap-x-2 text-sm text-destructive'>
+      <AlertTriangle className='h-4 w-4 ' />
+      <p>{message}</p>
+    </div>
+  );
+};
+```
+
+## Props
+
+| Name      | Type     | Description                           |
+|-----------|----------|---------------------------------------|
+| `message` | `string` | The error message to be displayed.    |
+
+## Additional Notes
+
+- The `FormError` component provides a visually appealing way to display error messages within forms.
+- It dynamically renders based on the presence of the `message` prop.
+- Developers can easily customize the styling and behavior of the error message component.
+

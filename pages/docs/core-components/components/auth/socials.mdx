@@ -1,0 +1,56 @@
+---
+title: Social.tsx
+description: Display social login buttons.
+---
+
+# Social.tsx
+
+The `Social` component displays social login buttons for authentication. It provides options for signing in with different social media platforms using OAuth.
+
+## Example Usage
+
+```tsx
+"use client";
+import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+
+export const Social = () => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+
+  const handleOauth = (provider: string) => {
+    signIn(provider, {
+      callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    });
+  };
+
+  return (
+    <div className="grid grid-cols-2 w-full gap-x-2">
+      <Button
+        className="w-full"
+        variant="outline"
+        size="lg"
+        onClick={() => handleOauth("google")}
+      >
+        <Image
+          src="https://utfs.io/f/eb04033a-a0af-402c-b691-1ffeadec8c91-c3fgyx.svg"
+          alt="google"
+          width={20}
+          height={20}
+          className="w-6 h-6"
+        />
+      </Button>
+      {/* [Add other social login buttons here] */}
+    </div>
+  );
+};
+```
+
+## Additional Notes
+
+- The `Social` component provides a convenient way for users to sign in with different social media platforms.
+- Developers can easily add more social login buttons by expanding the grid and adding additional `Button` components.
+- Each button handles the sign-in process using OAuth and redirects users to the specified callback URL after authentication.

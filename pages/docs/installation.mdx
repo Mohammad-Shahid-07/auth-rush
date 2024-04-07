@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: A CLI Tool to setup authjs. Customizable. Open Source.
+description: Learn how to install and configure Auth Rush in your Next.js app.
 ---
 
 import { Steps } from "nextra/components";
@@ -35,13 +35,10 @@ Please choose an authentication provider:
   GitHub
 
 
-Configuration for credentials:
 ❯ Do you want to add two-factor authentication? (yes/no)
 ❯ Choose a mailing service: nodemailer / resend
 ❯ Add username field? (yes/no)
 
-Configuration for magic link:
-❯ Choose a mailing service: nodemailer / resend
 ```
 
 ### Env variables
@@ -65,9 +62,38 @@ NEXT_PUBLIC_BASE_URL=
 AUTH_SECRET=
 
 DATABASE_URL=
-# uncomment next line if you use Prisma <5.10
- DATABASE_URL_UNPOOLED=
+DATABASE_URL_UNPOOLED=
 
+```
+
+### Update next.config
+
+Add the following to your `next.config` file:
+
+> **Note:** you get some by default images you using Credentials that's why you need to add uuid to your next.config file.
+
+```js showLineNumbers
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+      },
+      {
+        protocol: "https",
+        hostname: "google.com",
+      },
+      {
+        protocol: "https",
+        hostname: "github.com",
+      },
+    ],
+  },
+};
+
+export default nextConfig;
 ```
 
 ### App structure

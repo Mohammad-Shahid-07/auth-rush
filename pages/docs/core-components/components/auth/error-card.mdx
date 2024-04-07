@@ -1,0 +1,43 @@
+---
+title: ErrorCard.tsx
+description: Display error messages in a structured card layout.
+---
+
+# ErrorCard.tsx
+
+The `ErrorCard` component is used to display error messages in a structured card layout. It utilizes the `CardWrapper` component from Auth Rush to encapsulate the error message and provide a consistent UI experience.
+
+## Example Usage
+
+```tsx
+import { AlertTriangleIcon } from "lucide-react";
+import { CardWrapper } from "@/components/auth/CardWrapper";
+
+export const ErrorCard = () => {
+  return (
+    <CardWrapper
+      headerLabel="Oops! Something went wrong"
+      BackButtonHref="/login"
+      BackButtonLabel="Back to login"
+    >
+      <div className="w-full flex justify-center items-center">
+        <AlertTriangleIcon className="text-red-500" />
+      </div>
+    </CardWrapper>
+  );
+};
+```
+
+## Props
+
+| Name            | Type     | Description                                       |
+|-----------------|----------|---------------------------------------------------|
+| `headerLabel`   | `string` | The header label for the error card.             |
+| `BackButtonHref`| `string` | The href for the back button.                    |
+| `BackButtonLabel`| `string`| The label for the back button.                   |
+
+## Additional Notes
+
+- The `ErrorCard` component provides a consistent layout for displaying error messages throughout the application.
+- Users can easily navigate back to the login page using the provided back button.
+

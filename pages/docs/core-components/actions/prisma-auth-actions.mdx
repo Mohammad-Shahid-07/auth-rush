@@ -1,0 +1,880 @@
+---
+title: auth.actions.ts (Prisma)
+description: This file contains the actions for the auth module.
+---
+
+# Auth Actions (Prisma)
+
+Depending on the authentication method you are using, you can use the following actions to authenticate users.
+
+### Register User
+
+This function is used to register a new user. It takes in the user details and validates them using the RegisterSchema. Here's what it does:
+
+1. **Validate Inputs**: It checks if the provided email and password are valid.
+2. **Hash Password**: It hashes the password using bcrypt for security.
+3. **Check Existing User**: It checks if the user already exists in the database based on the provided email or username.
+4. **Create User**: If the user does not exist, it creates a new user with the provided details.
+5. **Send Verification Email**: It sends a verification email to the user for email confirmation.
+
+Depending on the user's choice, the function can be customized to include or exclude the username field. Below are two versions of the function based on whether the user chooses to include a username or not.
+
+#### Register User (With Username)
+
+```typescript showLineNumbers
+import { database } from "@/lib/database";
+import { RegisterSchema } from "@/validations";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { getProfileUrl } from "@/lib/constant";
+import * as z from "zod";
+import bcrypt from "bcryptjs";
+import { sendVerificationEmail } from "@/lib/mail";
+```
+
+```typescript showLineNumbers
+export async function RegisterUser(values: z.infer<typeof RegisterSchema>) {
+  try {
+    const validatedFields = RegisterSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+
+    const { name, email, password, username } = validatedFields.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const existingUser = await database.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
+    });
+
+    if (existingUser) {
+      return { error: "User already exists" };
+    }
+
+    const image = getProfileUrl();
+    const newUser = await database.user.create({
+      data: {
+        name,
+        image,
+        email,
+        password: hashedPassword,
+        username,
+      },
+    });
+
+    const Verificationtoken = await generateVerificationToken(email);
+    await sendVerificationEmail(email, Verificationtoken.token);
+    return { success: "Verification Email Sent!" };
+  } catch (error: any) {
+    return error.message;
+  }
+}
+```
+
+#### Register User (Without Username)
+
+```typescript showLineNumbers
+export async function RegisterUser(values: z.infer<typeof RegisterSchema>) {
+  try {
+    const validatedFields = RegisterSchema.safeParse(values);
+
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+
+    const { name, email, password } = validatedFields.data;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const existingUser = await database.user.findFirst({
+      where: {
+        email,
+      },
+    });
+
+    if (existingUser) {
+      return { error: "User already exists" };
+    }
+
+    const image = getProfileUrl();
+    const newUser = await database.user.create({
+      data: {
+        name,
+        image,
+        email,
+        password: hashedPassword,
+        //[RegisterUsername]
+      },
+    });
+
+    const Verificationtoken = await generateVerificationToken(email);
+    await sendVerificationEmail(name, email, Verificationtoken.token);
+    return { success: "Verification Email Sent!" };
+  } catch (error: any) {
+    return error.message;
+  }
+}
+```
+
+### Login User
+
+LoginUser function has three different cases.most of the code remains the same but still the different code in each is hilighed.
+
+#### Login User (Without Username and Two-Factor)
+
+This version of the function is suitable for users who do not choose to have a username and do not opt for two-factor authentication. Here's what it does:
+
+1. **Validate Inputs**: It checks if the provided email and password are valid.
+2. **Check Existing User**: It retrieves the user from the database based on the provided email.
+3. **Verify Email**: If the user exists, it checks if their email is verified. If not, it sends a confirmation email.
+4. **Sign In**: Finally, if the credentials are valid and the email is verified, it signs in the user.
+
+```typescript showLineNumbers
+import { LoginSchema } from "@/validations";
+import { sendVerificationEmail } from "@/lib/mail";
+import * as z from "zod";
+import bcrypt from "bcryptjs";
+import EmailVerification from "@/models/email_verify.model";
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { sendTwoFactorTokenEmail } from "@/lib/mail";
+import { connectToDatabase } from "@/lib/database";
+import { AuthError } from "next-auth";
+import User from "@/models/user.model";
+```
+
+```typescript showLineNumbers
+export async function LoginUser(values: z.infer<typeof LoginSchema>) {
+  try {
+    const validatedFields = LoginSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+    const { email, password } = validatedFields.data;
+    const callbackUrl = "/";
+
+    const existingLoginUser = await database.user.findFirst({
+      where: {
+        OR: [{ email: email }],
+      },
+    });
+
+    if (
+      !existingLoginUser ||
+      !existingLoginUser.email ||
+      !existingLoginUser.password
+    ) {
+      return { error: "Email does not exist!" };
+    }
+
+    if (!existingLoginUser.emailVerified) {
+      const verificationToken = await generateVerificationToken(
+        existingLoginUser.email,
+      );
+
+      await sendVerificationEmail(
+        verificationToken.email,
+        verificationToken.token,
+      );
+
+      return { success: "Confirmation email sent!" };
+    }
+    //[LoginTwoFactor]
+    await signIn("credentials", {
+      email: existingLoginUser.email,
+      password,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid credentials!" };
+        default:
+          return { error: "Something went wrong!" };
+      }
+    }
+
+    throw error;
+  }
+}
+```
+
+#### Login User (With Username Only)
+
+This version of the function includes support for a username field but does not require two-factor authentication. The only difference is that now we are looking for both the username and email in our database.
+
+> **Note:** You can see that I am using the field name email for both email and username. This was done to reduce too much change in the code.
+
+```typescript showLineNumbers {10-14}
+export async function LoginUser(values: z.infer<typeof LoginSchema>) {
+  try {
+    const validatedFields = LoginSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+    const { email, password } = validatedFields.data;
+    const callbackUrl = "/";
+
+    const existingLoginUser = await database.user.findFirst({
+      where: {
+        OR: [{ email }, { username: email }],
+      },
+    });
+
+    if (
+      !existingLoginUser ||
+      !existingLoginUser.email ||
+      !existingLoginUser.password
+    ) {
+      return { error: "Email does not exist!" };
+    }
+
+    if (!existingLoginUser.emailVerified) {
+      const verificationToken = await generateVerificationToken(
+        existingLoginUser.email,
+      );
+
+      await sendVerificationEmail(
+        verificationToken.email,
+        verificationToken.token,
+      );
+
+      return { success: "Confirmation email sent!" };
+    }
+    //[LoginTwoFactor]
+    await signIn("credentials", {
+      email: existingLoginUser.email,
+      password,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid credentials!" };
+        default:
+          return { error: "Something went wrong!" };
+      }
+    }
+
+    throw error;
+  }
+}
+```
+
+#### Login User (With Two-Factor Authentication Only)
+
+```typescript showLineNumbers {21-55}
+export async function LoginUser(values: z.infer<typeof LoginSchema>) {
+  try {
+    const validatedFields = LoginSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email and password" };
+    }
+    const { email, password } = validatedFields.data;
+    const callbackUrl = "/";
+
+    const existingLoginUser = await database.user.findFirst({
+      where: {
+        OR: [{ email: email }],
+      },
+    });
+
+    if (
+      !existingLoginUser ||
+      !existingLoginUser.email ||
+      !existingLoginUser.password
+    ) {
+      return { error: "Email does not exist!" };
+    }
+
+    if (!existingLoginUser.emailVerified) {
+      const verificationToken = await generateVerificationToken(
+        existingLoginUser.email,
+      );
+
+      await sendVerificationEmail(
+        verificationToken.email,
+        verificationToken.token,
+      );
+
+      return { success: "Confirmation email sent!" };
+    }
+    if (existingLoginUser.twoFactorEnabled && existingLoginUser.email) {
+      if (code) {
+        const twoFactorToken = await database.twoFactorToken.findFirst({
+          where: {
+            token: code,
+          },
+        });
+
+        if (!twoFactorToken || twoFactorToken.token !== code) {
+          return { error: "Invalid code" };
+        }
+        if (twoFactorToken.expiresAt.getTime() < new Date().getTime()) {
+          return { error: "Code expired" };
+        }
+
+        await database.twoFactorToken.deleteMany({
+          where: {
+            token: code,
+          },
+        });
+
+        const existingConfirmation =
+          await database.twoFactorConfirmation.findFirst({
+            where: {
+              userId: existingLoginUser.id,
+            },
+          });
+
+        if (existingConfirmation) {
+          await database.twoFactorConfirmation.deleteMany({
+            where: {
+              userId: existingLoginUser.id,
+            },
+          });
+        }
+
+        await database.twoFactorConfirmation.create({
+          data: {
+            user: {
+              connect: {
+                id: existingLoginUser.id,
+              },
+            },
+            expiresAt: new Date(new Date().getTime() + 60 * 60 * 1000),
+          },
+        });
+      } else {
+        const twoFactorToken = await generateTwoFactorToken(
+          existingLoginUser.email,
+        );
+        await sendTwoFactorTokenEmail(
+          existingLoginUser.email,
+          twoFactorToken.token,
+        );
+
+        return { twoFactor: true };
+      }
+    }
+
+    await signIn("credentials", {
+      email: existingLoginUser.email,
+      password,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+    });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid credentials!" };
+        default:
+          return { error: "Something went wrong!" };
+      }
+    }
+
+    throw error;
+  }
+}
+```
+
+At line 21, we first check if the user has enabled two-factor or not, and if yes, then we go into the code block.If the user has two-factor authentication enabled, we proceed to validate the provided authentication code. This code is generated and sent to the user's email during the two-factor authentication setup process. We compare the provided code with the one stored in the database. If the codes match and the code has not expired, the user is considered authenticated.
+
+However, if the provided code is invalid or has expired, appropriate error messages are returned to the user. Invalid codes result in an "Invalid code" error, while expired codes prompt an "Code expired" error.
+
+Upon successful validation of the authentication code, we delete the used token from the database to ensure it cannot be reused. Additionally, any existing two-factor confirmation records associated with the user are deleted to maintain a clean record of authentication attempts.
+
+Subsequently, a new two-factor confirmation record is created for the user, specifying the expiration time. This record serves as a marker indicating that the user has successfully passed the two-factor authentication process within the given timeframe.
+
+Overall, this version of the login function provides support for two-factor authentication, enhancing the security of user authentication processes.
+
+### Generate Two-Factor Token
+
+This function generates a six-digit two-factor authentication token for the given email and stores it in the `TwoFactorToken` collection. It creates a new document containing the email, token, and expiration time (set to 15 minutes from the current time).
+
+```typescript showLineNumbers
+import crypto from "crypto";
+```
+
+```typescript showLineNumbers
+export const generateTwoFactorToken = async (email: string) => {
+  try {
+    const token = crypto.randomInt(100_100, 999_999).toString();
+    const expiresAt = new Date(new Date().getTime() + 15 * 60 * 1000);
+
+    // Delete existing token if exists
+    await prisma.twoFactorToken.deleteMany({
+      where: {
+        email: email,
+      },
+    });
+
+    // Create new TwoFactorToken
+    const newTwoFactorToken = await prisma.twoFactorToken.create({
+      data: {
+        email,
+        token,
+        expiresAt,
+      },
+    });
+
+    return newTwoFactorToken;
+  } catch (error) {
+    console.log(error);
+  }
+};
+```
+
+### Get Two-Factor Confirmation By User Id
+
+This function retrieves the two-factor confirmation associated with the given user ID from the `TwoFactorConfirmation` collection.
+
+```typescript showLineNumbers
+export async function getTwoFactorConfirmationByUserId(userId: string) {
+  try {
+    const twoFactorConfirmation = await prisma.twoFactorConfirmation.findFirst({
+      where: {
+        userId: userId,
+      },
+    });
+    if (!twoFactorConfirmation) {
+      return { error: "Token not found" };
+    }
+    return twoFactorConfirmation;
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+### Get Verification Token By Email
+
+This function retrieves the verification token associated with the given email from the database.
+
+```typescript showLineNumbers
+export async function getVerificationTokenByEmail(email: string) {
+  try {
+    const verificationToken = await database.emailVerification.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    if (!verificationToken) {
+      return { error: "Token not found" };
+    }
+    return verificationToken;
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      "An error occurred while fetching verification token by email",
+    );
+  }
+}
+```
+
+### Get Verification Token By Token
+
+This function retrieves the verification token associated with the given token from the database.
+
+```typescript showLineNumbers
+export async function getVerificationTokenByToken(token: string) {
+  try {
+    const verificationToken = await database.emailVerification.findFirst({
+      where: {
+        token: token,
+      },
+    });
+    if (!verificationToken) {
+      return { error: "Token not found" };
+    }
+    return verificationToken;
+  } catch (error) {
+    console.error(error);
+    throw new Error(
+      "An error occurred while fetching verification token by token",
+    );
+  }
+}
+```
+
+### Generate Verification Token
+
+This function generates a verification token for the given email and stores it in the database.
+
+```typescript showLineNumbers
+import { database } from "@/lib/database";
+import { v4 as uuidv4 } from "uuid";
+```
+
+```typescript showLineNumbers
+export async function generateVerificationToken(email: string) {
+  try {
+    const token = uuidv4();
+    const expiresAt = new Date(new Date().getTime() + 1 * 60 * 60 * 1000);
+
+    await database.emailVerification.deleteMany({
+      where: {
+        email: email,
+      },
+    });
+
+    const newVerificationToken = await database.emailVerification.create({
+      data: {
+        email: email,
+        token: token,
+        expiresAt: expiresAt,
+      },
+    });
+
+    return newVerificationToken;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while generating verification token");
+  }
+}
+```
+
+This function generates a unique verification token for the given email address and stores it in a database collection called `EmailVerification`.
+
+The function uses the `uuidv4()` function from the `uuid` library to create a universally unique identifier (UUID) string, which serves as the verification token. It then calculates an expiration time for the token, which is set to one hour from the current time.
+
+Before creating a new token, the function checks if an existing token is already associated with the provided email address. If found, it deletes the existing token from the database.
+
+Next, it creates a new document in the `EmailVerification` collection, containing the email address, the generated token, and the expiration time.
+
+Finally, the function saves the new document to the database and returns it.
+
+In case of any errors during the process, the error is logged to the console.
+
+### Verify Token
+
+This function verifies the provided token and marks the associated user's email as verified in the database. It first checks if the token exists and hasn't expired. If valid, it retrieves the user associated with the email, sets their `emailVerified` property, and saves the changes. Finally, it deletes the token from the database.
+
+```typescript showLineNumbers
+import { database } from "@/lib/database";
+```
+
+```typescript showLineNumbers
+export async function verifyToken(token: string) {
+  try {
+    const existingToken = await database.emailVerification.findFirst({
+      where: {
+        token: token,
+      },
+    });
+
+    if (!existingToken) {
+      return { error: "Token not found" };
+    }
+
+    const hasExpired = new Date().getTime() > existingToken.expiresAt.getTime();
+    if (hasExpired) {
+      await database.emailVerification.delete({
+        where: {
+          token: token,
+        },
+      });
+      return { error: "Token expired" };
+    }
+
+    const { email } = existingToken;
+    const user = await database.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return { error: "User not found" };
+    }
+
+    await database.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        emailVerified: new Date(),
+        email: email,
+      },
+    });
+
+    await database.emailVerification.delete({
+      where: {
+        token: token,
+      },
+    });
+
+    return { success: "Email Verified!" };
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while verifying token");
+  }
+}
+```
+
+### Generate Password Reset Token
+
+This function generates a unique password reset token for the given email and stores it in the `ForgotPassword` collection. It creates a new document containing the email, token, and expiration time (set to one hour from the current time).
+
+```typescript showLineNumbers
+import { database } from "@/lib/database";
+import { v4 as uuidv4 } from "uuid";
+```
+
+```typescript showLineNumbers
+export const generatePasswordResetToken = async (email: string) => {
+  try {
+    const token = uuidv4();
+    const expiresAt = new Date(new Date().getTime() + 60 * 60 * 1000);
+
+    await database.forgotPassword.deleteMany({
+      where: {
+        email: email,
+      },
+    });
+
+    const newPasswordResetToken = await database.forgotPassword.create({
+      data: {
+        email: email,
+        token: token,
+        expires: expiresAt,
+      },
+    });
+
+    return newPasswordResetToken;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while generating password reset token");
+  }
+};
+```
+
+### Reset Password
+
+This function initiates the password reset process. It first validates the provided email, then checks if the user exists. If found, it generates a password reset token and sends a reset email to the user containing the token.
+
+```typescript showLineNumbers
+import { database } from "@/lib/database";
+```
+
+```typescript showLineNumbers
+export async function resetPassword(values: z.infer<typeof ResetSchema>) {
+  try {
+    const validatedFields = ResetSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email" };
+    }
+
+    const { email } = validatedFields.data;
+
+    const user = await database.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (!user) {
+      return { error: "User not found" };
+    }
+
+    const verificationToken = await generatePasswordResetToken(email);
+
+    await sendResetEmail(verificationToken.email, verificationToken.token);
+
+    return { success: "Password reset email sent" };
+  } catch (error) {
+    console.error(error);
+    return { error: "Something went wrong" };
+  }
+}
+```
+
+### Reset Password With Token
+
+This function resets the user's password using the provided reset token. It first validates the token and checks if it hasn't expired. If valid, it retrieves the associated user, hashes the new password, updates the user's password, saves the changes, and deletes the token from the database.
+
+```typescript showLineNumbers
+import ForgotPassword from "@/models/forgot_pass.model";
+```
+
+```typescript showLineNumbers
+export async function resetPasswordWithToken(
+  values: z.infer<typeof NewPasswordSchema>,
+  token: string,
+) {
+  try {
+    const validatedFields = NewPasswordSchema.safeParse(values);
+    if (!validatedFields.success) {
+      return { error: "Please provide a valid email" };
+    }
+
+    const { password } = validatedFields.data;
+
+    const existingToken = await database.forgotPassword.findFirst({
+      where: {
+        token: token,
+      },
+    });
+
+    if (!existingToken) {
+      return { error: "Token not found" };
+    }
+
+    const hasExpired = new Date().getTime() > existingToken.expires.getTime();
+    if (hasExpired) {
+      await database.forgotPassword.delete({
+        where: {
+          token: token,
+        },
+      });
+      return { error: "Token expired" };
+    }
+
+    const user = await database.user.findFirst({
+      where: {
+        email: existingToken.email,
+      },
+    });
+
+    if (!user) {
+      return { error: "User not found" };
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await database.user.update({
+      where: {
+        email: existingToken.email,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    await database.forgotPassword.delete({
+      where: {
+        token: token,
+      },
+    });
+
+    return { success: "Password reset" };
+  } catch (error) {
+    console.error(error);
+    return { error: "Something went wrong" };
+  }
+}
+```
+
+### Get User By Email
+
+This function retrieves a user from the database based on their email.
+
+```typescript showLineNumbers
+import { database } from "@/lib/database";
+```
+
+```typescript showLineNumbers
+ export async function GetUserByEmail(email: string) {
+  try {
+    const user = await database.user.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while fetching user by email");
+  }
+}
+```
+
+### Get User By Id
+
+This function retrieves a user from the database based on their ID.
+
+```typescript showLineNumbers
+import { database } from "@/lib/database";
+```
+
+```typescript showLineNumbers
+export async function GetUserById(id: string) {
+  try {
+    const user = await database.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    if (!user) {
+      return { error: "User not found" };
+    }
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred while fetching user by ID");
+  }
+} 
+```
+
+### Get Database User
+
+This function retrieves the current session user from the database by first retrieving the user's email from the session and then finding the associated user in the database.
+
+```typescript showLineNumbers
+import User from "@/models/user.model";
+import { currentUser } from "@/lib/utils/currentSession";
+```
+
+```typescript showLineNumbers
+ export async function getdbUser() {
+  try {
+    const sessionUser = await currentUser(); 
+
+    if (!sessionUser) {
+      return { error: 'User not found' };
+    }
+
+    const user = await database.user.findFirst({
+      where: {
+        email: sessionUser.email,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+} 
+```
+
+```typescript showLineNumbers
+"use server";
+//[imports]
+import {
+  LoginSchema,
+  NewPasswordSchema,
+  RegisterSchema,
+  ResetSchema,
+} from "@/validations";
+import * as z from "zod";
+import bcrypt from "bcryptjs";
+import EmailVerification from "@/models/email_verify.model";
+import { v4 as uuidv4 } from "uuid";
+import { sendResetEmail, sendVerificationEmail } from "@/lib/mail";
+import ForgotPassword from "@/models/forgot_pass.model";
+import { signIn } from "@/auth";
+import crypto from "crypto";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { getProfileUrl } from "@/lib/constant";
+
+import { sendTwoFactorTokenEmail } from "@/lib/mail";
+import TwoFactorToken, {
+  TwoFactorConfirmation,
+} from "@/models/two_factor_token.model";
+
+import User from "@/models/user.model";
+import { connectToDatabase } from "@/lib/database";
+import { currentUser } from "@/lib/utils/currentSession";
+import { AuthError } from "next-auth";
+```
