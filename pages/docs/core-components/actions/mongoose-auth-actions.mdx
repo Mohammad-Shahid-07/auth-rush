@@ -803,7 +803,7 @@ This function retrieves the current session user from the database by first retr
 
 ```typescript showLineNumbers
 import User from "@/models/user.model";
-import { currentUser } from "@/lib/utils/currentSession";
+import { currentUser } from "@/lib/utils/currentUser";
 ```
 
 ```typescript showLineNumbers
@@ -852,6 +852,6 @@ import TwoFactorToken, {
 
 import User from "@/models/user.model";
 import { connectToDatabase } from "@/lib/database";
-import { currentUser } from "@/lib/utils/currentSession";
+import { currentUser } from "@/lib/utils/currentUser";
 import { AuthError } from "next-auth";
 ```

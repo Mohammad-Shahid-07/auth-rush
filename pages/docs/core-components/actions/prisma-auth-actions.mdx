@@ -774,7 +774,7 @@ import { database } from "@/lib/database";
 ```
 
 ```typescript showLineNumbers
- export async function GetUserByEmail(email: string) {
+export async function GetUserByEmail(email: string) {
   try {
     const user = await database.user.findFirst({
       where: {
@@ -813,7 +813,7 @@ export async function GetUserById(id: string) {
     console.error(error);
     throw new Error("An error occurred while fetching user by ID");
   }
-} 
+}
 ```
 
 ### Get Database User
@@ -822,16 +822,16 @@ This function retrieves the current session user from the database by first retr
 
 ```typescript showLineNumbers
 import User from "@/models/user.model";
-import { currentUser } from "@/lib/utils/currentSession";
+import { currentUser } from "@/lib/utils/currentUser";
 ```
 
 ```typescript showLineNumbers
- export async function getdbUser() {
+export async function getdbUser() {
   try {
-    const sessionUser = await currentUser(); 
+    const sessionUser = await currentUser();
 
     if (!sessionUser) {
-      return { error: 'User not found' };
+      return { error: "User not found" };
     }
 
     const user = await database.user.findFirst({
@@ -845,7 +845,7 @@ import { currentUser } from "@/lib/utils/currentSession";
     console.error(error);
     throw error;
   }
-} 
+}
 ```
 
 ```typescript showLineNumbers
@@ -875,6 +875,6 @@ import TwoFactorToken, {
 
 import User from "@/models/user.model";
 import { connectToDatabase } from "@/lib/database";
-import { currentUser } from "@/lib/utils/currentSession";
+import { currentUser } from "@/lib/utils/currentUser";
 import { AuthError } from "next-auth";
 ```

@@ -2,7 +2,8 @@
 title: Backbutton.tsx
 description: Auth Rush provides a set of web pages that you can use to build your application.
 ---
-# Backbutton.tsx 
+
+# Backbutton.tsx
 
 This component is straightforward, utilizing the `Button` component to generate a back button. It's particularly handy in Auth Rush for navigating between sign-in and sign-up pages, allowing users to switch between "Do you already have an account?" and "New here? Register" prompts.
 
@@ -23,5 +24,5 @@ export const BackButton = ({ href, label }: BackButtonProps) => {
       <Link href={href}>{label}</Link>
     </Button>
   );
-};  
+};
 ```

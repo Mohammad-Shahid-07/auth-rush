@@ -1,0 +1,147 @@
+---
+title: validataions.ts
+description: This file contains various Zod schemas for validating data in the application.
+---
+
+# validataions.ts
+
+This file exports several Zod schemas for validating user input data in various scenarios, such as login, registration, password reset, account updates, and more. These schemas ensure that the data provided by the user meets certain criteria before being processed by the application.
+
+## Imports
+
+```typescript
+import * as z from "zod";
+```
+
+This line imports the Zod library, which is a TypeScript-first schema validation library.
+
+## Schemas
+
+### LoginSchema
+
+```typescript
+export const LoginSchema = z.object({
+  email: z.string().min(1, { message: "Please provide a valid email" }),
+  password: z.string().min(1, { message: "Please provide a password" }),
+  code: z.optional(z.string().min(6, { message: "Please provide a code" })),
+});
+```
+
+The `LoginSchema` validates the data required for user login. It expects an object with the following properties:
+
+- `email`: A non-empty string representing the user's email address.
+- `password`: A non-empty string representing the user's password.
+- `code` (optional): A string with a minimum length of 6 characters, representing a code (e.g., two-factor authentication code).
+
+### RegisterSchema
+
+```typescript
+export const RegisterSchema = z.object({
+  username: z.string().min(1, { message: "Please provide a username" }),
+  email: z.string().email({ message: "Please provide a valid email" }),
+  password: z.string().min(6, {
+    message: "Please provide a password with at least 6 characters",
+  }),
+  name: z.string().min(1, { message: "Please provide a name" }),
+});
+```
+
+The `RegisterSchema` validates the data required for user registration. It expects an object with the following properties:
+
+- `username`: A non-empty string representing the user's username.
+- `email`: A valid email string.
+- `password`: A string with a minimum length of 6 characters, representing the user's password.
+- `name`: A non-empty string representing the user's name.
+
+### ResetSchema
+
+```typescript
+export const ResetSchema = z.object({
+  email: z.string().email({ message: "Please provide a valid email" }),
+});
+```
+
+The `ResetSchema` validates the data required for password reset. It expects an object with the following property:
+
+- `email`: A valid email string.
+
+### NewPasswordSchema
+
+```typescript
+export const NewPasswordSchema = z.object({
+  password: z.string().min(6, {
+    message: "Please provide a password with at least 6 characters",
+  }),
+});
+```
+
+The `NewPasswordSchema` validates the data required for setting a new password. It expects an object with the following property:
+
+- `password`: A string with a minimum length of 6 characters, representing the new password.
+
+### UpdateUserSchema
+
+```typescript
+export const UpdateUserSchema = z.object({
+  username: z.string().min(1, { message: "Please provide a username" }),
+  name: z.string().min(1, { message: "Please provide a name" }),
+});
+```
+
+The `UpdateUserSchema` validates the data required for updating user information. It expects an object with the following properties:
+
+- `username`: A non-empty string representing the user's updated username.
+- `name`: A non-empty string representing the user's updated name.
+
+### SetPasswordSchema
+
+```typescript
+export const SetPasswordSchema = z.object({
+  oldPassword: z
+    .string()
+    .min(6, { message: "Please use at least 6 characters." })
+    .max(32)
+    .optional()
+    .or(z.literal("")),
+  newPassword: z
+    .string()
+    .min(6, { message: "Please use at least 6 characters." })
+    .max(32),
+  confirmNewPassword: z
+    .string()
+    .min(6, { message: "Please use at least 6 characters." })
+    .max(32),
+});
+```
+
+The `SetPasswordSchema` validates the data required for setting a new password, potentially requiring the user's old password. It expects an object with the following properties:
+
+- `oldPassword`: An optional string with a minimum length of 6 characters and a maximum length of 32 characters, representing the user's old password. This field can also be an empty string.
+- `newPassword`: A string with a minimum length of 6 characters and a maximum length of 32 characters, representing the user's new password.
+- `confirmNewPassword`: A string with a minimum length of 6 characters and a maximum length of 32 characters, representing the confirmation of the new password.
+
+### TwoFactorTogglerSchema
+
+```typescript
+export const TwoFactorTogglerSchema = z.object({
+  twoFactorEnabled: z.optional(z.boolean()),
+});
+```
+
+The `TwoFactorTogglerSchema` validates the data required for enabling or disabling two-factor authentication. It expects an object with the following property:
+
+- `twoFactorEnabled` (optional): A boolean indicating whether two-factor authentication should be enabled or disabled.
+
+### DeleteAccountSchema
+
+```typescript
+export const DeleteAccountSchema = z.object({
+  password: z.string().min(6, {
+    message: "Please provide a password with at least 6 characters",
+  }),
+});
+```
+
+The `DeleteAccountSchema` validates the data required for deleting a user account. It expects an object with the following property:
+
+- `password`: A string with a minimum length of 6 characters, representing the user's password for confirmation.

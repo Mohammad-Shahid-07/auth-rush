@@ -1,0 +1,47 @@
+---
+title: useCurrentUser.ts
+description: A custom React hook to get the current user from the next-auth/react session.
+---
+
+# useCurrentUser
+
+This is different than 'currentUser' as it is for client side components,it retrieve the current user session data. It returns the `user` object from the session data, or `undefined` if there is no active session.
+
+```typescript
+import { useSession } from "next-auth/react";
+
+export const useCurrentUser = () => {
+  const session = useSession();
+  return session.data?.user;
+};
+```
+
+- The `useCurrentUser` hook is a custom hook that wraps the `useSession` hook from `next-auth/react`.
+- It calls the `useSession` hook to get the current session data.
+- It returns the `user` object from the session data (`session.data?.user`). If there is no active session, it will return `undefined`.
+
+**Usage**
+
+You can use this in client side components to get the current user data from the session. For example, you can use it in a component like this:
+
+```jsx
+"use client";
+import { useCurrentUser } from "@/lib/utils/useCurrentUser";
+
+const MyComponent = () => {
+  const currentUser = useCurrentUser();
+
+  return (
+    <div>
+      {currentUser ? (
+        <div>
+          <p>Logged in as: {currentUser.name}</p>
+          <p>Email: {currentUser.email}</p>
+        </div>
+      ) : (
+        <p>Not logged in</p>
+      )}
+    </div>
+  );
+};
+```

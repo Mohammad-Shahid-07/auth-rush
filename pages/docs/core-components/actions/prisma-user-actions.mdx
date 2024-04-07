@@ -13,7 +13,7 @@ This function updates the user's profile image in the database.
 
 ```typescript showLineNumbers
 import { database } from "@/lib/database";
-import { currentUser } from "@/lib/utils/currentSession";
+import { currentUser } from "@/lib/utils/currentUser";
 import User from "@/models/user.model";
 import { revalidatePath } from "next/cache";
 ```

@@ -1,0 +1,125 @@
+---
+title: auth.config.ts
+description: This file configures the authentication providers for the application using the next-auth library.
+---
+
+# auth.config.ts
+
+This file exports the configuration for various authentication providers supported by the application. It uses the `next-auth` library to handle authentication and integrates with different providers, including Google, GitHub, and email/password-based credentials.
+
+## Imports
+
+```typescript
+// [imports]
+import Credentials from "next-auth/providers/credentials";
+import { LoginSchema } from "@/validations";
+import bcrypt from "bcryptjs";
+import { GetUserByEmail } from "@/actions/auth.actions";
+import Github from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
+import type { NextAuthConfig } from "next-auth";
+```
+
+
+The necessary imports are listed here, including the authentication providers from `next-auth`, validation schemas, utility functions, and types. Additional providers can be added by following the `next-auth` documentation and importing them accordingly.
+
+## Google Provider
+
+```typescript
+Google({
+  clientId: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+}),
+```
+
+This section configures the Google authentication provider. It requires the `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` environment variables to be set with the corresponding values from the Google API Console.
+
+## GitHub Provider
+
+```typescript
+Github({
+  clientId: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+}),
+```
+
+This section configures the GitHub authentication provider. It requires the `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` environment variables to be set with the corresponding values from the GitHub OAuth App settings.
+
+## Credentials Provider
+
+```typescript
+Credentials({
+  async authorize(credentials) {
+    const validatedFields = LoginSchema.safeParse(credentials);
+
+    if (!validatedFields.success) {
+      return null;
+    }
+
+    if (validatedFields.success) {
+      const { email, password } = validatedFields.data;
+      const user = await GetUserByEmail(email);
+
+      if (!user || !user.password) return null;
+
+      const passwordsMatch = await bcrypt.compare(password, user.password);
+
+      if (passwordsMatch) return user;
+    }
+
+    return null;
+  },
+}),
+```
+
+This section configures the email/password-based authentication provider using the `Credentials` provider from `next-auth`. It validates the provided credentials using the `LoginSchema` and checks if the email and password match with the user data fetched from the `GetUserByEmail` function. If the credentials are valid, it returns the user object; otherwise, it returns `null`.
+
+## Export
+
+```typescript
+export default {
+  providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    Github({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
+    Credentials({
+      async authorize(credentials) {
+        // ...
+      },
+    }),
+  ],
+} satisfies NextAuthConfig;
+```
+
+The default export is an object that contains the configured providers. It satisfies the `NextAuthConfig` type from `next-auth`. Additional providers can be added to the `providers` array by following the `next-auth` documentation and importing the necessary provider modules.
+
+## Adding More Providers
+
+To add more authentication providers, you can refer to the `next-auth` documentation and import the corresponding provider modules. Here's an example of how you can add the Twitter provider:
+
+```typescript
+// [imports]
+import Twitter from "next-auth/providers/twitter";
+
+export default {
+  providers: [
+    // ... (existing providers)
+    Twitter({
+      clientId: process.env.TWITTER_CLIENT_ID,
+      clientSecret: process.env.TWITTER_CLIENT_SECRET,
+      version: "2.0", // Opt-in to Twitter's OAuth 2.0 flow
+    }),
+  ],
+} satisfies NextAuthConfig;
+```
+
+In this example, the Twitter provider is imported from `next-auth/providers/twitter` and added to the `providers` array with the required configuration options, such as `clientId` and `clientSecret`. The necessary environment variables (`TWITTER_CLIENT_ID` and `TWITTER_CLIENT_SECRET`) should be set with the corresponding values from the Twitter Developer Portal.
+
+By following this approach, you can easily extend the authentication providers supported by your application based on your requirements.
+
+

@@ -1,8 +1,8 @@
 {
-  "name": "currentSession",
+  "name": "currentUser",
   "files": [
     {
-      "name": "currentSession.ts",
+      "name": "currentUser.ts",
       "content": "\n import { auth } from \"@/auth\";\nexport async function currentUser() {\n  try {\n    const session = await auth();\n    if (session) {\n      return session.user;\n    }\n    return null;\n  } catch (error) {\n    console.log(error);\n  }\n}  "
     }
   ],

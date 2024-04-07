@@ -1,0 +1,79 @@
+---
+title: routes.ts
+description: This file exports constants related to routes and authentication paths in the application.
+---
+
+# routes.ts
+
+This file exports several constants that define the routes and authentication paths used in the application. These constants can be imported and used throughout the codebase to ensure consistency and maintainability.
+
+## Public Routes
+
+```typescript
+export const publicRoutes = ["/", "/verify-email"];
+```
+
+
+The `publicRoutes` constant is an array that contains the paths for public routes in the application. These routes are accessible to all users, including unauthenticated ones. In this case, the public routes are:
+
+- `/`: The root path, which is likely the homepage or the main entry point.
+- `/verify-email`: The path for verifying a user's email address, typically used during the registration or email change process.
+
+## Authentication Routes
+
+```typescript
+export const authRoutes = [
+  "/login",
+  "/register",
+  "/error",
+  "/reset",
+  "/new-password",
+];
+```
+
+The `authRoutes` constant is an array that contains the paths for authentication-related routes in the application. These routes are likely used for authentication processes such as login, registration, error handling, password reset, and setting a new password. The routes included are:
+
+- `/login`: The path for the login page or route.
+- `/register`: The path for the registration page or route.
+- `/error`: The path for displaying authentication errors or error messages.
+- `/reset`: The path for initiating the password reset process.
+- `/new-password`: The path for setting a new password, typically after a successful password reset.
+
+## API Authentication Prefix
+
+```typescript
+export const apiAuthPrefix = "/api/auth";
+```
+
+The `apiAuthPrefix` constant defines the prefix for authentication-related API routes in the application. This prefix is likely used to group and organize all authentication-related API endpoints under a common path. For example, an API endpoint for user registration might be `/api/auth/register`.
+
+## Default Login Redirect
+
+```typescript
+export const DEFAULT_LOGIN_REDIRECT = "/";
+```
+
+The `DEFAULT_LOGIN_REDIRECT` constant specifies the default route to which a user should be redirected after a successful login. In this case, the user will be redirected to the root path (`/`) after logging in.
+
+## Usage
+
+These constants can be imported and used throughout the application to ensure consistent routing and authentication paths. For example, in a React component or a Next.js API route, you can import and use these constants like this:
+
+```jsx
+import {
+  publicRoutes,
+  authRoutes,
+  apiAuthPrefix,
+  DEFAULT_LOGIN_REDIRECT,
+} from "./routes";
+
+// Render a navigation link for the login page
+<Link href={authRoutes[0]}>Login</Link>;
+
+// Construct an API endpoint for user registration
+const registerEndpoint = `${apiAuthPrefix}/register`;
+
+// Redirect the user to the default login redirect path after successful authentication
+router.push(DEFAULT_LOGIN_REDIRECT);
+```
+

@@ -1,0 +1,161 @@
+---
+title: auth.ts
+description: This file configures the authentication system using NextAuth.js.
+---
+
+# auth.ts
+
+This file configures the authentication system for the application using the NextAuth.js library. It imports various modules and utilities, defines custom types, and sets up authentication handlers, callbacks, and configurations.
+
+## Imports
+
+```typescript
+// [imports]
+import { getTwoFactorConfirmationByUserId } from "@/actions/auth.actions";
+import { LoginWithOAuth } from "@/actions/auth.actions";
+import NextAuth, { DefaultSession } from "next-auth";
+import { GetUserByEmail, GetUserById } from "@/actions/auth.actions";
+import authConfig from "@/auth.config";
+```
+
+The necessary imports are listed here, including utility functions for authentication actions, NextAuth.js library, and the authentication configuration file.
+
+## Custom User Type
+
+```typescript
+type ExtenededUser = DefaultSession["user"] & {
+  id: string;
+  role: string;
+  username: string;
+  twoFactorEnabled: boolean;
+};
+
+declare module "next-auth" {
+  interface Session {
+    user: ExtenededUser;
+  }
+}
+```
+
+This section defines a custom `ExtenededUser` type that extends the default `user` type from the `DefaultSession` in NextAuth.js. It adds additional properties like `id`, `role`, `username`, and `twoFactorEnabled`. The `declare module` block is used to extend the `Session` interface in NextAuth.js to include the custom `ExtenededUser` type for the `user` property.
+
+## NextAuth Configuration
+
+```typescript
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
+  pages: {
+    signIn: "/signin",
+    error: "/error",
+  },
+  callbacks: {
+    async signIn({ user, account }) {
+      // ...
+    },
+    async session({ session, token }) {
+      // ...
+    },
+    async jwt({ token }) {
+      // ...
+    },
+  },
+  ...authConfig,
+  session: {
+    strategy: "jwt",
+  },
+});
+```
+
+This section configures NextAuth.js with the following options:
+
+- `pages`: Specifies the URLs for the sign-in and error pages.
+- `callbacks`: Defines callback functions for handling sign-in, session, and JSON Web Token (JWT) operations.
+  - `signIn`: Handles the sign-in logic, including OAuth sign-in, email verification, and two-factor authentication.
+  - `session`: Populates the session object with user data from the JWT token.
+  - `jwt`: Populates the JWT token with user data from the database.
+- `...authConfig`: Spreads the configuration from the `authConfig` file (e.g., authentication providers).
+- `session.strategy`: Sets the session strategy to use JWT tokens.
+
+The exported values include the HTTP request handlers (`GET` and `POST`), the `auth` object for handling authentication-related operations, and the `signIn` and `signOut` functions for signing in and out users.
+
+## Authentication Callbacks
+
+### signIn Callback
+
+```typescript
+async signIn({ user, account }) {
+  if (account?.provider !== "credentials") {
+    await LoginWithOAuth({ user, account });
+    return true;
+  }
+
+  const existingUser = await GetUserById(user.id);
+  if (!existingUser?.emailVerified) return false;
+
+  if (existingUser?.twoFactorEnabled) {
+    const twoFactorConfimation = await getTwoFactorConfirmationByUserId(
+      existingUser._id,
+    );
+    if (!twoFactorConfimation) return false;
+    await twoFactorConfimation.deleteOne();
+  }
+
+  return true;
+}
+```
+
+The `signIn` callback handles the sign-in process for different authentication providers. If the provider is not "credentials" (e.g., OAuth providers like Google or GitHub), it calls the `LoginWithOAuth` function with the user and account data, and returns `true` to allow the sign-in.
+
+For the "credentials" provider (e.g., email/password authentication), it checks if the user exists in the database using `GetUserById`. If the user's email is not verified, it returns `false` to prevent sign-in. If two-factor authentication is enabled for the user, it checks for a two-factor confirmation code and deletes it after a successful sign-in. If the confirmation code is not found, it returns `false`.
+
+### session Callback
+
+```typescript
+async session({ session, token }) {
+  if (token.id && session.user) {
+    session.user.id = token?.id.toString();
+  }
+  if (token.role && session.user) {
+    session.user.role = token.role.toString();
+  }
+  if (session.user) {
+    session.user.name = token?.name;
+    session.user.email = token?.email;
+    session.user.username = token?.username as string;
+    session.user.image = token?.image as string;
+  }
+  return session;
+}
+```
+
+The `session` callback populates the session object with user data from the JWT token. It assigns the `id`, `role`, `name`, `email`, `username`, and `image` properties from the token to the `user` object in the session.
+
+### jwt Callback
+
+```typescript
+async jwt({ token }) {
+  if (!token.email) {
+    return token;
+  }
+
+  const dbUser = await GetUserByEmail(token.email);
+  if (!dbUser) return token;
+
+  token.name = dbUser.name;
+  token.email = dbUser.email;
+  token.username = dbUser.username;
+  token.image = dbUser?.image;
+  token.id = dbUser._id;
+  token.role = dbUser.role;
+
+  return token;
+}
+```
+
+The `jwt` callback populates the JWT token with user data from the database. If the token has an email property, it fetches the user data from the database using `GetUserByEmail`. It then assigns the `name`, `email`, `username`, `image`, `id`, and `role` properties from the database user to the token.
+
+By configuring NextAuth.js with these callbacks and options, the application can handle various authentication scenarios, such as OAuth sign-in, email/password authentication, two-factor authentication, and session management.

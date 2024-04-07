@@ -1,0 +1,42 @@
+---
+title: utils.ts
+description: This module provides a utility function for generating classnames using clsx and tailwind-merge.
+---
+
+# utils.ts
+
+This module exports a function `cn` for generating classnames by merging multiple class values using clsx and tailwind-merge.
+
+## `cn`
+
+This function accepts multiple class values as input and returns a merged classname string.
+
+```javascript
+import { cn } from "path/to/classnames";
+
+const className = cn("class1", "class2", condition && "class3", {
+  class4: true,
+});
+```
+
+The `cn` function merges the provided class values into a single classname string.
+
+### Parameters
+
+- `...inputs`: Variable number of class values to be merged.
+
+### Return Value
+
+- Returns a string containing the merged classnames.
+
+### Example
+
+```javascript
+import { cn } from "path/to/classnames";
+
+const className = cn("bg-blue-500", "text-white", isBold && "font-bold", {
+  "p-2": true,
+});
+```
+
+This example generates a classname string based on the provided class values, including conditional class values and object syntax for dynamic classes.

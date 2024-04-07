@@ -1,0 +1,68 @@
+---
+title: currentUser.ts
+description: A server-side function to get the current user from the auth session.
+---
+
+# currentUser.ts
+
+This is a server-side function that retrieves the current user data from the authentication session. It uses the `auth` to obtain the session data, and returns the `user` object from the session if it exists. If there is no active session, it returns `null`.
+
+**Import**
+
+```typescript
+import { auth } from "@/auth";
+```
+
+**Function Definition**
+
+```typescript
+export async function currentUser() {
+  try {
+    const session = await auth();
+    if (session) {
+      return session.user;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+- The `currentUser` function is an asynchronous function marked with the `async` keyword.
+- Inside the `try` block:
+  - It calls the `auth` function and awaits its result, which is the session data.
+  - If the `session` exists (truthy value), it returns the `user` object from the session (`session.user`).
+  - If the `session` does not exist, it returns `null`.
+- If an error occurs during the execution of the `try` block, it catches the error and logs it to the console.
+
+**Usage**
+
+You can use this function in your server-side code to access the current user data. For example:
+
+```typescript
+import { currentUser } from "./currentUser";
+
+const MyComponent = async () => {
+  const currentUser = await useCurrentUser();
+
+  return (
+    <div>
+      {currentUser ? (
+        <div>
+          <p>Logged in as: {currentUser.name}</p>
+          <p>Email: {currentUser.email}</p>
+        </div>
+      ) : (
+        <p>Not logged in</p>
+      )}
+    </div>
+  );
+};
+```
+
+In this example, the `currentUser` function is used to retrieve the current user data on the server-side.
+
+**Comparison with `useCurrentUser`**
+
+As mentioned, the `currentUser` function is designed for server-side components, while the `useCurrentUser` hook from the previous example is meant for client-side components in React applications. The latter utilizes the `useSession` hook from `next-auth/react` to access the session data on the client-side, whereas the `currentUser` function is to retrieve the session data.

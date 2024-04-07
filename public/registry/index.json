@@ -238,8 +238,13 @@
     "type": "lib:utils"
   },
   {
-    "name": "currentSession",
-    "files": ["currentSession.ts"],
+    "name": "LoggedOut",
+    "files": ["LoggedOut.tsx"],
+    "type": "lib:utils"
+  },
+  {
+    "name": "currentUser",
+    "files": ["currentUser.ts"],
     "type": "lib:utils"
   },
   {

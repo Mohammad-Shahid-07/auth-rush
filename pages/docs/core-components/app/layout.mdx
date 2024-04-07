@@ -1,0 +1,42 @@
+---
+title: layout.tsx
+description: This file exports a React component that serves as an authentication layout.
+---
+
+# layout.tsx
+
+The `AuthLayout` component is a server-side rendered React component that checks if a user is authenticated and redirects them to the home page if they are. If the user is not authenticated, it renders its children components within a centered layout.
+
+## Imports
+
+```jsx
+import { currentUser } from "@/lib/utils/currentSession";
+import { redirect } from "next/navigation";
+```
+
+## Component Definition
+
+```jsx
+export default async function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode,
+}) {
+  const user = await currentUser();
+
+  if (user) {
+    redirect("/");
+  }
+
+  return (
+    <main className="flex h-screen flex-col items-center justify-center ">
+      {children}
+    </main>
+  );
+}
+```
+
+- The `AuthLayout` component is an asynchronous function component that takes a `children` prop of type `React.ReactNode`.
+- Inside the component, the `currentUser` function is called to retrieve the current user's session information.
+- If a user is found (i.e., `user` is truthy), the `redirect` function is called to redirect the user to the home page (`/`).
+- If the user is not authenticated, the component renders its children components within a `<main>` element with some styling classes applied (`flex h-screen flex-col items-center justify-center`).

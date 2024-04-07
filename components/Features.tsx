@@ -7,7 +7,7 @@ const Features = () => {
     <section>
       <div className="m-auto mt-28">
         <Heading
-          heading="New Features"
+          heading="Features"
           subheading="Explore the latest features of Auth Rush, designed to meet all your authentication requirements with simplicity and security."
         />
   
@@ -54,7 +54,7 @@ const Features = () => {
             </p>
           </div>
           <div className="group bg-gradient-to-b from-[#4D4A4A] to-[#232323] h-full w-72 shadow-lg rounded-md flex flex-col justify-between gap-2 overflow-x-hidden">
-            <p className="font-medium text-white p-3">Magic Links</p>
+            <p className="font-medium text-white p-3">Magic Links (Comming Soon)</p>
             <Image
               src="/assets/icons/magic-link.svg"
               alt="magic links"

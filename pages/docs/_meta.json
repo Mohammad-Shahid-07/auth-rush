@@ -16,15 +16,15 @@
   "--1": {
     "type": "separator"
   },
-  "modifications": "Modifications",
   "-- Code You Will Get": {
     "type": "separator",
     "title": "Code You Will Get"
   },
-  "core-components": "",
+  "core-components": "Source Code",
   "--2": {
     "type": "separator"
   },
+  "customization": "Customizations",
 
   "contribute": "Contribute",
   "--3": {
