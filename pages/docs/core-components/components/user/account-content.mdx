@@ -63,11 +63,7 @@ const AccountContent = () => {
       }
 
       // Call API to update user information
-      await updateUserNameUser({
-        name: values.name,
-        username: values.username,
-        pathname: usePathname(),
-      })
+      await updateUserNameUser(values, pathname)
         .then((res) => {
           if (res?.error) {
             setError(res.error);

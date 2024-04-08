@@ -235,12 +235,12 @@
   {
     "name": "LoggedIn",
     "files": ["LoggedIn.tsx"],
-    "type": "lib:utils"
+    "type": "components:control"
   },
   {
     "name": "LoggedOut",
     "files": ["LoggedOut.tsx"],
-    "type": "lib:utils"
+    "type": "components:control"
   },
   {
     "name": "currentUser",

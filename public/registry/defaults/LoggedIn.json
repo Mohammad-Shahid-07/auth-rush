@@ -6,5 +6,5 @@
       "content": "import React from \"react\";\nimport { currentUser } from \"./currentUser\";\n interface LoggedInProps {\n  children: React.ReactNode;\n}\nconst LoggedIn = async ({ children }: LoggedInProps) => {\n  const user = await currentUser();\n  if (!user) {\n    return;\n  }\n  return <div>{children}</div>;\n};\n\nexport default LoggedIn;"
     }
   ],
-  "type": "lib:utils"
+  "type": "components:control"
 }

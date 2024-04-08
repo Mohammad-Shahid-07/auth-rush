@@ -61,7 +61,7 @@ export async function updateUserNameUser(
   try {
     const validatedFields = UpdateUserSchema.safeParse(values);
     if (!validatedFields.success) {
-      return { error: "Please provide a valid email and password" };
+      return { error: "Something went wrong" };
     }
     const { name, username } = values;
     if (!/^[a-zA-Z0-9_]+$/.test(username)) {
@@ -117,7 +117,7 @@ export async function setNewPassword(
   try {
     const validatedFields = SetPasswordSchema.safeParse(values);
     if (!validatedFields.success) {
-      return { error: "Please provide a valid email and password" };
+      return { error: "Something went wrong" };
     }
     const { newPassword } = values;
     connectToDatabase();
@@ -155,7 +155,7 @@ export async function changePassword(
   try {
     const validatedFields = SetPasswordSchema.safeParse(values);
     if (!validatedFields.success) {
-      return { error: "Please provide a valid email and password" };
+      return { error: "Something went wrong" };
     }
     const { oldPassword, newPassword } = values;
     if (!oldPassword) return { error: "Please enter your old password" };

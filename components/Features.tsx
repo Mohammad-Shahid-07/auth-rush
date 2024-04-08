@@ -10,7 +10,7 @@ const Features = () => {
           heading="Features"
           subheading="Explore the latest features of Auth Rush, designed to meet all your authentication requirements with simplicity and security."
         />
-  
+
         <div className="flex gap-10 flex-wrap justify-center mt-16">
           <div className="group bg-gradient-to-b from-[#4D4A4A] to-[#232323] h-full w-72 shadow-lg rounded-md flex flex-col justify-between gap-2 p-3">
             <p className="font-medium text-white">Multifactor Authentication</p>
@@ -22,7 +22,8 @@ const Features = () => {
               className="m-auto w-52 h-40 group-hover:scale-110 transition-transform"
             />
             <p className="text-sm text-[#AE9F9F]">
-              Each user&apos;s self-serve multifactor settings are enforced automatically during sign-in.
+              Each user&apos;s self-serve multifactor settings are enforced
+              automatically during sign-in.
             </p>
           </div>
           <div className="group bg-gradient-to-b from-[#4D4A4A] to-[#232323] h-full w-72 shadow-lg rounded-md flex flex-col justify-between gap-2 p-3 transition">
@@ -54,7 +55,9 @@ const Features = () => {
             </p>
           </div>
           <div className="group bg-gradient-to-b from-[#4D4A4A] to-[#232323] h-full w-72 shadow-lg rounded-md flex flex-col justify-between gap-2 overflow-x-hidden">
-            <p className="font-medium text-white p-3">Magic Links (Comming Soon)</p>
+            <p className="font-medium text-white p-3">
+              Magic Links (Comming Soon)
+            </p>
             <Image
               src="/assets/icons/magic-link.svg"
               alt="magic links"
@@ -63,14 +66,14 @@ const Features = () => {
               className="w-full h-40 group-hover:scale-110 transition-transform"
             />
             <p className="text-sm text-[#AE9F9F] p-3">
-              Streamline user authentication with magic links for hassle-free access.
+              Streamline user authentication with magic links for hassle-free
+              access.
             </p>
           </div>
         </div>
       </div>
     </section>
   );
-  
 };
 
 export default Features;
