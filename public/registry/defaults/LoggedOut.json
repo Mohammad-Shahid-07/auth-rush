@@ -3,7 +3,7 @@
   "files": [
     {
       "name": "LoggedOut.tsx",
-      "content": "import React from \"react\";\nimport { currentUser } from \"./currentUser\";\n interface LoggedOutProps {\n  children: React.ReactNode;\n}\nconst LoggedOut = async ({ children }: LoggedOutProps) => {\n  const user = await currentUser();\n  if (!user) {\n    return;\n  }\n  return <div>{children}</div>;\n};\n\nexport default LoggedOut;"
+      "content": "import React from \"react\";\nimport { currentUser } from \"@/lib/utils/currentUser\";\n interface LoggedOutProps {\n  children: React.ReactNode;\n}\nconst LoggedOut = async ({ children }: LoggedOutProps) => {\n  const user = await currentUser();\n  if (!user) {\n    return;\n  }\n  return <div>{children}</div>;\n};\n\nexport default LoggedOut;"
     }
   ],
   "type": "components:control"

@@ -11,7 +11,7 @@
       "name": "github",
       "imports": "",
       "content": " <Button\n         className=\"outline outline-2 w-full flex gap-5 outline-gray-700\"\n        variant=\"ghost\"\n        size=\"lg\"\n        onClick={() => handleOauth(\"github\")}\n      >\n        <Image \nsrc=\"https://utfs.io/f/d3274ee5-df7a-467b-a974-6b4197ee1aa5-n8iwbn.svg\"\nalt=\"google\"\nwidth={20}\nheight={20}\nclassName=\"w-6 h-6\"/>\nContinue with Github\n  </Button>\n ",
-      "comment": "{/*[github]*/}"
+      "comment": "{/*[Github]*/}"
     }
   ]
 }
