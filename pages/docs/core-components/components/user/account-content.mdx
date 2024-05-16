@@ -11,26 +11,39 @@ The `AccountContent` component displays account information and allows users to 
 
 ```tsx
 "use client";
-import React, { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { useForm } from 'react-hook-form';
-import { UpdateUserSchema } from '@/validations';
-import * as z from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { FormError } from '@/components/auth/FormError';
-import { FormSuccess } from '@/components/auth/FormSuccess';
-import { zodResolver } from '@hookform/resolvers/zod';
-import ChooseAvatar from '@/components/user/ChooseAvatar';
-import { updateUserNameUser } from '@/actions/user.actions';
-import { usePathname } from 'next/navigation';
+import React, { useState } from "react";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useForm } from "react-hook-form";
+import { UpdateUserSchema } from "@/validations";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { FormError } from "@/components/auth/FormError";
+import { FormSuccess } from "@/components/auth/FormSuccess";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ChooseAvatar from "@/components/user/ChooseAvatar";
+import { updateUserNameUser } from "@/actions/user.actions";
+import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useCurrentUser } from '@/lib/utils/useCurrentUser';
-import Loader from '@/components/auth/Loader';
+import { useCurrentUser } from "@/lib/utils/useCurrentUser";
+import Loader from "@/components/auth/Loader";
 
 const AccountContent = () => {
   // State variables for managing form submission and response
@@ -59,7 +72,9 @@ const AccountContent = () => {
 
       // Perform validation checks
       if (!/^[a-zA-Z0-9_]+$/.test(values.username)) {
-        return setError("Username can only contain letters, numbers, and underscores");
+        return setError(
+          "Username can only contain letters, numbers, and underscores",
+        );
       }
 
       // Call API to update user information
@@ -88,7 +103,7 @@ const AccountContent = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-slate-800 font-bold">Account</CardTitle>
+        <CardTitle className="text-gray-200 font-bold">Account</CardTitle>
         <CardDescription className="text-slate-700">
           Make changes to your account here. Click save when you're done.
         </CardDescription>
@@ -127,7 +142,9 @@ const AccountContent = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-slate-800">Username</FormLabel>
+                      <FormLabel className="font-semibold text-gray-200">
+                        Username
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="username"
@@ -146,7 +163,9 @@ const AccountContent = () => {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold text-slate-800">Name</FormLabel>
+                      <FormLabel className="font-semibold text-gray-200">
+                        Name
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="name"
@@ -162,12 +181,11 @@ const AccountContent = () => {
                 />
               </div>
               <FormError message={error} />
-             
 
- <FormSuccess message={success} />
+              <FormSuccess message={success} />
               <Button
                 type="submit"
-                className="w-full text-white bg-slate-800"
+                className="w-full text-white bg-slate-950"
                 disabled={isPending}
               >
                 Save

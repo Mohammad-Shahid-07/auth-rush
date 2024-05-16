@@ -7,7 +7,6 @@ description: Allow users to choose an avatar from a selection of images.
 
 The 'UserMenu' component is designed to display a dropdown menu with user-related options such as managing the account and signing out.
 
-
 ```tsx
 "use client";
 import React from "react";
@@ -78,14 +77,14 @@ const UserMenu = () => {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem className="text-slate-800  hover:bg-slate-800/25 ">
+            <DropdownMenuItem className="text-gray-200  hover:bg-slate-950/25 ">
               <DialogTrigger className=" inline-flex cursor-pointer w-full items-center gap-5  py-3 text-sm">
                 <Settings2 />
                 <span>Manage Account</span>
               </DialogTrigger>
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="text-slate-800  hover:bg-slate-800/25 ">
+            <DropdownMenuItem className="text-gray-200  hover:bg-slate-950/25 ">
               <button
                 className="inline-flex w-full items-center gap-5  py-3 text-sm "
                 onClick={() => signOut()}
