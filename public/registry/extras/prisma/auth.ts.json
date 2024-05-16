@@ -4,6 +4,12 @@
     {
       "name": "credentials",
       "imports": "",
+      "content": "events: {\n  async linkAccount({ user }) {\n//[DefUsername]\n    await database.user.update({\n      where: { id: user.id },\n      data: { emailVerified: new Date(),\n//[UsernamePrisma]\n  },\n    });\n  },\n},\ncallbacks: {\n  async signIn({ user, account }) {\n\n    if (account?.provider !== \"credentials\") return true;\n//[credentialsSignIn]\n\n//[credentialsSignInTwoFactor]    \n    return true;\n  },",
+      "comment": "//[CredentialCallback]"
+    },
+    {
+      "name": "credentials",
+      "imports": "",
       "content": "const existingUser = await GetUserById(user.id);\n\n  \nif (!existingUser?.emailVerified) return false;",
       "comment": "//[credentialsSignIn]"
     },

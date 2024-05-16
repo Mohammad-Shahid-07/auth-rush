@@ -3,7 +3,7 @@
   "files": [
     {
       "name": "Header.tsx",
-      "content": "import { Poppins } from \"next/font/google\";\n\nconst font = Poppins({\n  subsets: [\"latin\"],\n  weight: [\"600\"],\n});\n\ninterface HeaderProps {\n  label?: string;\n}\nexport const Header = ({ label }: HeaderProps) => {\n  return (\n    <div className=\"w-full flex text-center flex-col gap-y-4 \">\n      <p className=\"font-bold text-4xl  \">Auth Rush</p>\n      <p className=\"text-muted-foreground text-sm\">{label}</p>\n    </div>\n  );\n};"
+      "content": "import { Poppins } from \"next/font/google\";\n\nconst font = Poppins({\n  subsets: [\"latin\"],\n  weight: [\"600\"],\n});\n\ninterface HeaderProps {\n  label?: string;\n}\nexport const Header = ({ label }: HeaderProps) => {\n  return (\n    <div className=\"w-full flex text-center flex-col gap-y-4 \">\n      <p className=\"font-bold text-4xl  \">Auth Rush</p>\n      <p className=\"text-white/80-foreground text-sm\">{label}</p>\n    </div>\n  );\n};"
     }
   ],
   "type": "components:auth"
