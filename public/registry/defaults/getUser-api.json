@@ -1,8 +1,9 @@
 {
-  "name": "getUser",
+  "name": "getUser-api",
   "files": [
     {
       "name": "route.ts",
+
       "content": "import { getdbUser } from \"@/actions/auth.actions\";\r\nimport { currentUser } from \"@/lib/utils/currentUser\";\r\n\r\nexport const GET = async () => {\r\n  try {\r\n    const user = await currentUser();\r\n    if (!user) {\r\n      return new Response(\"Unauthorized\", { status: 401 });\r\n    }\r\n    const dbUser = await getdbUser();\r\n    return new Response(JSON.stringify(dbUser), { status: 200 });\r\n  } catch (error) {\r\n    return new Response(\"Internal Server Error\", { status: 500 });\r\n  }\r\n};\r\n"
     }
   ],
