@@ -126,11 +126,6 @@
     "type": "components:auth"
   },
   {
-    "name": "UserButton",
-    "files": ["UserButton.tsx"],
-    "type": "components:auth"
-  },
-  {
     "name": "VerifyEmailForm",
     "files": ["VerifyEmailForm.tsx"],
     "type": "components:auth"
