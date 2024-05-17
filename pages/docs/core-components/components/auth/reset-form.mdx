@@ -11,36 +11,43 @@ The `ResetForm` component displays a form for resetting a password. It utilizes 
 
 ```tsx
 "use client";
-import React, { useState, useTransition } from 'react';
-import { CardWrapper } from '@/components/auth/CardWrapper';
-import { useForm } from 'react-hook-form';
-import { ResetSchema } from '@/validations';
-import * as z from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { FormError } from '@/components/auth/FormError';
-import { FormSuccess } from '@/components/auth/FormSuccess';
-import { resetPassword } from '@/actions/auth.actions';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState, useTransition } from "react";
+import { CardWrapper } from "@/components/auth/CardWrapper";
+import { useForm } from "react-hook-form";
+import { ResetSchema } from "@/validations";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { FormError } from "@/components/auth/FormError";
+import { FormSuccess } from "@/components/auth/FormSuccess";
+import { resetPassword } from "@/actions/auth.actions";
+import { zodResolver } from "@hookform/resolvers/zod";
 ```
 
 ```tsx
 export const ResetForm = () => {
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof ResetSchema>) {
     startTransition(() => {
-      setError('');
-      setSuccess('');
+      setError("");
+      setSuccess("");
 
       resetPassword(values).then((res) => {
         setError(res?.error);
@@ -51,23 +58,23 @@ export const ResetForm = () => {
 
   return (
     <CardWrapper
-      headerLabel='Forgot Your Password?'
-      BackButtonLabel='Back to login'
-      BackButtonHref='/login'
+      headerLabel="Forgot Your Password?"
+      BackButtonLabel="Back to login"
+      BackButtonHref="/login"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-          <div className='space-y-6'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="space-y-6">
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='john.doe@example.com'
-                      type='email'
+                      placeholder="john.doe@example.com"
+                      type="email"
                       {...field}
                       disabled={isPending}
                     />
@@ -79,7 +86,11 @@ export const ResetForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button type='submit' className='w-full text-white bg-black' disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full text-white bg-black"
+            disabled={isPending}
+          >
             Send Reset Link
           </Button>
         </form>

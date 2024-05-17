@@ -28,8 +28,8 @@ import { CardWrapper } from "@/components/auth/CardWrapper";
 ```tsx
 export const LoginForm = () => {
   //[TwoFactorState]
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const urlError =
@@ -110,8 +110,8 @@ import { CardWrapper } from "@/components/auth/CardWrapper";
 ```tsx
 export const LoginForm = () => {
   //[TwoFactorState]
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const urlError =
@@ -239,8 +239,8 @@ export const LoginForm = () => {
 
 ```tsx
 export const LoginForm = () => {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const urlError =
@@ -363,8 +363,8 @@ export const LoginForm = () => {
 export const LoginForm = () => {
   const [showTwoFactor, setShowTwoFactor] = useState(false);
 
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const urlError =

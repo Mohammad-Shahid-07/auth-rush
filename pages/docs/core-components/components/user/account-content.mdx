@@ -47,8 +47,8 @@ import Loader from "@/components/auth/Loader";
 
 const AccountContent = () => {
   // State variables for managing form submission and response
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const [isPending, setIsPending] = useState<boolean | undefined>(false);
 
   // Fetch current user data

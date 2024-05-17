@@ -3,7 +3,7 @@
   "files": [
     {
       "name": "LoginForm.tsx",
-      "content": "\"use client\"\n//[imports]\nimport { CardWrapper } from \"@/components/auth/CardWrapper\";\n\nexport const LoginForm = () => {\n   \n  return (\n  <CardWrapper\n  BackButtonHref=\"/terms\"\n  BackButtonLabel=\"Terms & Conditions\"\n  showSocial\n>\n  <p className=\"font-bold text-gray-300 text-lg \">Sign in</p>\n  <p className=\"text-gray-300\">to continue to platform</p>\n</CardWrapper>\n  )}"
+      "content": "\"use client\";\r\n//[imports]\r\nimport { CardWrapper } from \"@/components/auth/CardWrapper\";\r\n\r\nexport const LoginForm = () => {\r\n  return (\r\n    <CardWrapper\r\n      BackButtonHref=\"/terms\"\r\n      BackButtonLabel=\"Terms & Conditions\"\r\n      showSocial\r\n    >\r\n      <p className=\"font-bold text-gray-300 text-lg \">Sign in</p>\r\n      <p className=\"text-gray-300\">to continue to platform</p>\r\n    </CardWrapper>\r\n  );\r\n};\r\n"
     }
   ],
   "type": "components:auth"
